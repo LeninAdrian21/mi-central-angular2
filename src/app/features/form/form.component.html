@@ -1,0 +1,197 @@
+<form [formGroup]="form" (ngSubmit)="Form()" class="w-100 mt-3">
+  <div class="row">
+    <div class="form-group" [ngClass]="{'col-4': formName !== 'loggin' && formName !== 'forgotPassword' && formName !== 'relations'}" *ngFor="let field of formInfo" [ngSwitch]="field.type">
+      <!-- formulario de tipo texto -->
+      <ng-container *ngSwitchCase="'text'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+        </mat-form-field>
+      </ng-container>
+      <!-- formulario de tipo fecha -->
+      <ng-container *ngSwitchCase="'date'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [formControlName]="field.name" [matDatepicker]="dp3">
+          <mat-hint class="text-white">MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+          <mat-datepicker #dp3></mat-datepicker>
+        </mat-form-field>
+      </ng-container>
+      <!-- formulario de tipo tiempo -->
+      <ng-container *ngSwitchCase="'time'">
+        <label for="meeting-time" class="m-0">{{field.placeholder}}</label>
+        <input type="time" id="meeting-time" name="meeting-time" value="2018-06-12T19:30" min="2018-06-07T00:00"
+          max="2018-06-14T00:00" style="height: 34px;" class="w-100 mt-2" [formControlName]="field.name">
+      </ng-container>
+      <!-- Formlario de tipo select -->
+      <ng-container *ngSwitchCase="'select'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <mat-select [formControlName]="field.name">
+            <mat-option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'email'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'password'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" [placeholder]="field.placeholder" [formControlName]="field.name">
+          <button mat-button matSuffix type="button" (click)="togglePasswordVisibility()">
+            {{ hidePassword ? 'Mostrar' : 'Ocultar' }}
+          </button>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'number'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'tel'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'textarea'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <textarea matInput [placeholder]="field.placeholder" [formControlName]="field.name"></textarea>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'checkbox'">
+        <mat-slide-toggle class="w-100 mt-2" [formControlName]="field.name">{{field.label}}</mat-slide-toggle>
+      </ng-container>
+      <ng-container *ngSwitchCase="'button'">
+        <button mat-raised-button color="primary"class="mt-2 mb-2" type="button"(click)="Relations(field.name,tableRelations[field.name])">
+          {{field.label}}
+        </button>
+      </ng-container>
+      <!-- falta  button -->
+      <mat-error *ngIf="form.controls[field.name].invalid && (form.controls[field.name].touched || service.submit)" class="text-danger pb-4">
+        <span *ngIf="form.controls[field.name].hasError('required') ">Campo requerido<br></span>
+        <span *ngIf="form.controls[field.name].hasError('pattern') ">{{field.pattern}}<br></span>
+        <span *ngIf="form.controls[field.name].hasError('minlength') ">{{field.minlength}}<br></span>
+        <span *ngIf="form.controls[field.name].hasError('maxlength') ">{{field.maxlength}}<br></span>
+        <span *ngIf="form.controls[field.name].hasError('email') ">{{field.email}}<br></span>
+      </mat-error>
+    </div>
+  </div>
+  <div class="row justify-content-center" *ngIf="!service.addUpdate">
+    <button type="submit" mat-raised-button color="warn" class="mx-3 col-4">
+      {{btn}}
+    </button>
+  </div>
+  <div class="row justify-content-center" *ngIf="service.addUpdate">
+    <button mat-raised-button disabled class="col-4 bg-warning mb-3 mt-3">
+        <span class="spinner-grow spinner-grow-sm c-black"  role="status" aria-hidden="true"></span>
+        <span class="spinner-grow spinner-grow-sm aria-hidden c-black"></span>
+        <span class="c-black">loading...</span>
+    </button>
+  </div>
+</form>
+
+<!-- <form [formGroup]="form" (ngSubmit)="Form()" class="w-100 mt-3">
+  <div class="row">
+    <div class="form-group" [ngClass]="{'col-4': formName !== 'loggin' && formName !== 'forgotPassword'}" *ngFor="let field of formInfo" [ngSwitch]="field.type">
+      <ng-container *ngSwitchCase="'text'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'date'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [formControlName]="field.name" [matDatepicker]="dp3">
+          <mat-hint class="text-white">MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+          <mat-datepicker #dp3></mat-datepicker>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'time'">
+        <label for="meeting-time" class="m-0">{{field.placeholder}}</label>
+        <input type="time" id="meeting-time" name="meeting-time" value="2018-06-12T19:30" min="2018-06-07T00:00"
+          max="2018-06-14T00:00" style="height: 34px;" class="w-100 mt-2" [formControlName]="field.name">
+      </ng-container>
+      <ng-container *ngSwitchCase="'select'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <mat-select [formControlName]="field.name">
+            <mat-option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'email'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'password'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" [placeholder]="field.placeholder" [formControlName]="field.name">
+          <button mat-button matSuffix type="button" (click)="togglePasswordVisibility()">
+            {{ hidePassword ? 'Mostrar' : 'Ocultar' }}
+          </button>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'number'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'tel'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'textarea'">
+        <mat-form-field appearance="fill" class="w-100 mt-2">
+          <mat-label>{{field.label}}</mat-label>
+          <textarea matInput [placeholder]="field.placeholder" [formControlName]="field.name"></textarea>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'checkbox'">
+        <mat-slide-toggle class="w-100 mt-2" [formControlName]="field.name">{{field.label}}</mat-slide-toggle>
+      </ng-container>
+      <ng-container *ngSwitchCase="'button'">
+        <button mat-raised-button color="primary" type="button" (click)="Relations(field.name,{} )">
+          {{field.label}}
+        </button>
+      </ng-container>
+
+      <mat-error *ngIf="form.controls[field.name].invalid && (form.controls[field.name].touched || service.submit)" class="text-danger pb-4">
+        <span *ngIf="form.controls[field.name].hasError('required') ">Campo requerido<br></span>
+        <span *ngIf="form.controls[field.name].hasError('pattern') ">{{field.pattern}}<br></span>
+        <span *ngIf="form.controls[field.name].hasError('minlength')">{{field.minlength}}<br></span>
+        <span *ngIf="form.controls[field.name].hasError('maxlength')">{{field.maxlength}}<br></span>
+        <span *ngIf="form.controls[field.name].hasError('email')">{{field.email}}<br></span>
+      </mat-error>
+    </div>
+  </div>
+  <div class="row justify-content-center" *ngIf="!service.addUpdate">
+    <button type="submit" mat-raised-button  color="warn" class="mb-3 mt-3 col-4" (click)="Form()">
+      {{btn}}
+    </button>
+  </div>
+  <div class="row justify-content-center" *ngIf="service.addUpdate">
+    <button mat-raised-button disabled class="col-4 bg-warning mb-3 mt-3">
+        <span class="spinner-grow spinner-grow-sm c-black"  role="status" aria-hidden="true"></span>
+        <span class="spinner-grow spinner-grow-sm aria-hidden c-black"></span>
+        <span class="c-black">loading...</span>
+    </button>
+  </div>
+</form> -->

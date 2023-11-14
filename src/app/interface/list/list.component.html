@@ -1,0 +1,43 @@
+<mat-card (scroll)="OnScroll($event)" class="card">
+  <mat-card-header class="sticky-top p-3 header">
+    <div class="row w-100">
+      <div class="d-flex ">
+        <div>
+          <mat-card-title class="text-white">{{title}}</mat-card-title>
+          <mat-card-subtitle>List</mat-card-subtitle>
+        </div>
+        <div class="w-100 row justify-content-between ms-3">
+          <button mat-fab class="bg-primary text-white efecto" data-text="Reload" (click)="Clear()">
+            <mat-icon>cached</mat-icon>
+          </button>
+          <button mat-fab class="bg-warning text-white efecto" data-text="Filtrar" (click)="Filter()">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+          <button mat-fab class="bg-success text-white efecto" data-text="Import" (click)="Import()">
+            <mat-icon>file_upload</mat-icon>
+          </button>
+          <button mat-fab class="bg-success text-white efecto" data-text="Export" (click)="Export()">
+            <mat-icon>get_app</mat-icon>
+          </button>
+          <button mat-mini-fab  class="bg-info text-white mt-2 " data-text="Add products" [routerLink]="'/egress/form'" *ngIf="data == 'products'">
+            <mat-icon>shopping_cart</mat-icon>
+          </button>
+          <button mat-mini-fab class="bg-success text-white mt-2 " data-text="Remove products" [routerLink]="'/income/form'" *ngIf="data == 'products'">
+            <mat-icon>shopping_basket</mat-icon>
+          </button>
+          <button mat-mini-fab class="bg-success text-white mt-2 efecto" data-text="Add" [routerLink]="link">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="ms-3">
+        <app-features-input></app-features-input>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="container-fluid overflow-auto m-auto pb-4" >
+      <app-features-table [filters]="filters" [fields]="fields" [columns]="columns"  [rolAccions]="rolAccions" [rolEdit]="rolEdit" [rolDelete]="rolDelete" [dataTable]="dataTable" [charge]="charge" [items]="items"></app-features-table>
+    </div>
+  </mat-card-content>
+</mat-card>

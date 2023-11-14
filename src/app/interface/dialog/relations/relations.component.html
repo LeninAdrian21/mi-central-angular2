@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6 d-flex flex-column">
+      <app-features-input></app-features-input>
+      <h1 class="text-center text-white">{{title}}</h1>
+      <div class="table">
+        <app-features-table [fields]="fields" [columns]="columns" [select]="select" [items]="items" [newData]=""></app-features-table>
+      </div>
+      <div class="mb-2 d-flex justify-content-between field">
+        <!-- <button mat-mini-fab color="accent" (click)="Add()"> -->
+        <button mat-mini-fab color="accent" >
+          <mat-icon>add</mat-icon>
+        </button>
+        <!-- <button mat-mini-fab color="accent" (click)="List()"> -->
+        <button mat-mini-fab color="accent" (click)="List()">
+          <mat-icon>check</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="col-6 mt-2 d-flex flex-column">
+      <mat-toolbar class="justify-content-center" color="primary">
+        <span>Formulario</span>
+      </mat-toolbar>
+      <div class="form">
+        <app-features-form [formInfo]="formInfo" [formName]="'relations'" [relations]="true" [nameTable]="nameTable" [newData]=""></app-features-form>
+      </div>
+    </div>
+  </div>
+</div>
+

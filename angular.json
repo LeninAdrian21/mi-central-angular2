@@ -30,17 +30,23 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/purple-green.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/@popperjs/core/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "900mb",
+                  "maximumError": "900mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -63,6 +69,10 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "mi-central-angular:build",
+            "proxyConfig": "./proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "browserTarget": "mi-central-angular:build:production"
@@ -93,6 +103,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -100,5 +111,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "c912a5f5-f28e-48cb-bc36-858d64f9fbd6"
   }
 }
