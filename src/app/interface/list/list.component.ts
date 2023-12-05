@@ -38,8 +38,7 @@ export class ListComponent implements OnInit{
     // this.ListarData();
     this.service.addFieldTable$.subscribe(data =>{
       this.reload = data;
-    })
-    console.log(this.reload);
+    });
     if(this.reload){
       return location.reload();
     }

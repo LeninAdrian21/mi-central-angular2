@@ -12,8 +12,8 @@ export class FormComponent {
    * @param {string} title  Es el titulo del formulario
    */
   @Input() title: string = '';
-  @Input() formInfo:FormDataItem[] = [];
   @Input() formName:string = '';
   @Input() btn:any
   @Input() update:any;
+  @Input() formInfo:FormDataItem[] = [];
 }

@@ -74,7 +74,6 @@ export class TableComponent implements OnInit,OnChanges {
     this.search.filtroActual.subscribe((filter:any) =>{
       this.filter = filter;
       this.dataSource.filter = filter.trim().toLowerCase();
-      // console.log(this.dataSource.filter);
     });
   }
   ngOnChanges(changes: SimpleChanges){
