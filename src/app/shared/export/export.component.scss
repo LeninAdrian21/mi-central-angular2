@@ -1,0 +1,9 @@
+.card{
+  overflow: auto;
+  max-height: 600px;
+}
+@media screen and (min-width: 1500px) {
+  .card{
+    max-height: 747px;
+  }
+}

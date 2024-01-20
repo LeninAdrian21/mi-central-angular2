@@ -1,0 +1,83 @@
+<div class="container pt-3 pb-3">
+  <mat-card class="card">
+      <mat-card-header>
+        <mat-toolbar class="justify-content-center" color="primary">
+            <span>Export</span>
+        </mat-toolbar>
+      </mat-card-header>
+      <mat-card-content>
+        <form >
+          <div>
+            <h2 class="text-white text-center mt-3">Campos a mostrar</h2>
+            <mat-chip-listbox multiple #chipList>
+              <mat-chip-option color="accent" *ngFor="let type of otro" [value]="type.value">{{ type.label }}</mat-chip-option>
+
+            </mat-chip-listbox>
+          </div>
+          <div>
+            <h2 class="text-white text-center mt-3">Tipo de archivo</h2>
+            <div class="d-flex align-items-center justify-content-center">
+              <mat-chip-listbox>
+                <mat-chip-option color="accent" *ngFor="let type of typeFile" [value]="type.value">{{ type.label }}</mat-chip-option>
+              </mat-chip-listbox>
+            </div>
+          </div>
+          <div>
+            <h2 class="text-white text-center mt-3">Nombre del archivo</h2>
+            <div class="d-flex align-items-center justify-content-center">
+              <mat-form-field class="w-50 m-auto">
+                <mat-label>Nombre del archivo</mat-label>
+                <input matInput placeholder="Nombre Archivo">
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-raised-button (click)="Accept()" class="m-auto text-white bg-success mb-3">Accept</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<!-- <div class="container pt-3 pb-3">
+  <mat-card>
+      <mat-card-header>
+        <mat-toolbar>
+            <span>Export</span>
+        </mat-toolbar>
+      </mat-card-header>
+      <mat-card-content>
+        <form >
+          <div>
+            <h2 class="text-white text-center mt-3">Campos a mostrar</h2>
+            <mat-chip-listbox multiple #chipList >
+              <mat-chip-option *ngFor="let opcion of otro" [value]="opcion.value">
+                {{ opcion.label }}
+              </mat-chip-option>
+            </mat-chip-listbox>
+          </div>
+          <div>
+            <h2 class="text-white text-center mt-3">Tipo de archivo</h2>
+            <div class="d-flex align-items-center justify-content-center">
+              <mat-chip-listbox >
+                <mat-chip-option *ngFor="let type of typeFile" [value]="type.value">
+                  {{ type.label }}
+                </mat-chip-option>
+              </mat-chip-listbox>
+            </div>
+          </div>
+          <div>
+            <h2 class="text-white text-center mt-3">Nombre del archivo</h2>
+            <mat-form-field class="w-50">
+              <mat-label>Nombre del archivo</mat-label>
+              <input matInput placeholder="Nombre Archivo" formControlName="nombre_archivo">
+            </mat-form-field>
+
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-raised-button (click)="Accept()" class="m-auto text-white bg-success">Accept</button>
+    </mat-card-actions>
+  </mat-card>
+</div> -->
+

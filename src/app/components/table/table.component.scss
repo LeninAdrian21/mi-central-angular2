@@ -1,0 +1,16 @@
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+.example-container {
+  max-height: 350px;
+  overflow: auto;
+}
+table {
+  width: 100%;
+}
+@media screen and (min-width: 1500px) {
+  .example-container{
+    max-height: 650px;
+  }
+}

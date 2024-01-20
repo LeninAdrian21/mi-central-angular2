@@ -1,0 +1,33 @@
+<mat-sidenav-container fullscreen>
+  <mat-sidenav #sidenav mode="push">
+    <mat-toolbar color="primary">
+      <span class="ps-1 pe-3">Menu</span>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-nav-list class="p-0">
+      <mat-list-item *ngFor="let item of nav" [routerLink]="item.routerLink" (click)="sidenav.toggle()">
+        <div class="d-flex">
+          <mat-icon>label</mat-icon>
+          <span class="ps-3">{{item.label}}</span>
+        </div>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-toolbar>
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="w-100">
+      <h1 class="text-white text-decoration-none text-center" [routerLink]="'/home'">
+        Mi central
+      </h1>
+    </div>
+    <span class="spacer"></span>
+    <button mat-button (click)="LogOut()"> Logout
+    </button>
+  </mat-toolbar>
+  <router-outlet></router-outlet>
+</mat-sidenav-container>

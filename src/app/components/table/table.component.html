@@ -1,0 +1,109 @@
+<mat-form-field class="mt-3">
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+</mat-form-field>
+<section class="example-container mat-elevation-z8" tabindex="0">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [aria-label]="checkboxLabel()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef> Weight </th>
+      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef> Symbol </th>
+      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        No data matching the filter "{{input.value}}"
+      </td>
+    </tr>
+  </table>
+</section>
+
+<!-- <mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+</mat-form-field>
+<section class="example-container mat-elevation-z8" tabindex="0">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container *ngFor="let column of displayedColumns; let i = index">
+      <ng-container [ngSwitch]="column">
+        <ng-container *ngSwitchCase="'select'">
+        </ng-container>
+        <ng-container *ngSwitchCase="'funtions'">
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+        </ng-container>
+        <ng-container *ngSwitchCase="'carts'"></ng-container>
+        <ng-container *ngSwitchCase="'credit'"></ng-container>
+        <ng-container *ngSwitchCase="'credits'"></ng-container>
+        <ng-container *ngSwitchCase="'dimension'"></ng-container>
+        <ng-container *ngSwitchCase="'egress'"></ng-container>
+        <ng-container *ngSwitchCase="'egresses'"></ng-container>
+        <ng-container *ngSwitchCase="'expenses'"></ng-container>
+        <ng-container *ngSwitchCase="'histories'"></ng-container>
+        <ng-container *ngSwitchCase="'income'"></ng-container>
+        <ng-container *ngSwitchCase="'lot'"></ng-container>
+        <ng-container *ngSwitchCase="'lots'"></ng-container>
+        <ng-container *ngSwitchCase="'payments'"></ng-container>
+        <ng-container *ngSwitchCase="'payment_method'"></ng-container>
+        <ng-container *ngSwitchCase="'payment_methods'"></ng-container>
+        <ng-container *ngSwitchCase="'premise'"></ng-container>
+        <ng-container *ngSwitchCase="'premises'"></ng-container>
+        <ng-container *ngSwitchCase="'products'"></ng-container>
+        <ng-container *ngSwitchCase="'promotions'"></ng-container>
+        <ng-container *ngSwitchCase="'provider'"></ng-container>
+        <ng-container *ngSwitchCase="'purchases'"></ng-container>
+        <ng-container *ngSwitchCase="'role'"></ng-container>
+        <ng-container *ngSwitchCase="'routes'"></ng-container>
+        <ng-container *ngSwitchCase="'sale'"></ng-container>
+        <ng-container *ngSwitchCase="'sales'"></ng-container>
+        <ng-container *ngSwitchCase="'sellers'"></ng-container>
+        <ng-container *ngSwitchCase="'truck'"></ng-container>
+        <ng-container *ngSwitchCase="'trucks'"></ng-container>
+        <ng-container *ngSwitchCase="'custom_user'"></ng-container>
+        <ng-container *ngSwitchCase="'custom_users'"></ng-container>
+        <ng-container *ngSwitchCase="'client'"></ng-container>
+        <ng-container *ngSwitchCase="'users'"></ng-container>
+        <ng-container *ngSwitchCase="'actions'"></ng-container>
+      </ng-container>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</section> -->

@@ -1,0 +1,113 @@
+<div>
+  <mat-card>
+      <mat-card-header>
+        <mat-toolbar>
+            <span>Filter</span>
+        </mat-toolbar>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="form" class="mt-2">
+          <ng-container formArrayName="filters">
+            <ng-container *ngFor="let filterControl of filtersForm.controls; let i = index">
+              <button mat-mini-fab type="button" class="bg-danger text-white" (click)="RemovedFilter(i)">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <div class="row mt-2">
+                <div class="form-group col-4">
+                  <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Field</mat-label>
+                    <input type="text"
+                           placeholder="Field"
+                           matInput
+                           [formControl]="filterControl.get('field')"
+                           [matAutocomplete]="auto"
+                           [value]="getDisplayField(filterControl.get('field').value)"
+                           >
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option.value" >
+                        {{ option.label }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <mat-error *ngIf="filterControl.get('field').invalid && (filterControl.get('field').touched)" class="text-danger pb-4">
+                    <span *ngIf="filterControl.get('field').hasError('invalidOption')">{{ filterControl.get('field').getError('message') }}</span>
+                  </mat-error>
+                </div>
+                <div class="form-group col-4">
+                  <mat-form-field class="w-100">
+                    <mat-label>Operator</mat-label>
+                    <mat-select [formControl]="filterControl.get('operator')">
+                      <mat-option *ngFor="let operator of operators[filterControl.get('field')['value']]" [value]="operator.value">
+                        {{ operator.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-error *ngIf="filterControl.get('operator').invalid && (filterControl.get('operator').touched)" class="text-danger pb-4">
+                    <span *ngIf="filterControl.get('operator').hasError('required')"> Campo requerido</span>
+                  </mat-error>
+                </div>
+                <div class="form-group col-4">
+                  <div *ngIf="filterControl.get('operator')['value'] === '==' || filterControl.get('operator')['value'] === '!=' || filterControl.get('operator')['value'] === 'contain' ">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Value</mat-label>
+                      <input type="text"
+                             placeholder="Vale"
+                             matInput
+                             [formControl]="filterControl.get('value')"
+                             [matAutocomplete]="autoValue">
+                      <mat-autocomplete autoActiveFirstOption #autoValue="matAutocomplete">
+                        <mat-option *ngFor="let option of valueOptions[i] | async" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="filterControl.get('value').invalid && (filterControl.get('field').touched)" class="text-danger pb-4">
+                      <span *ngIf="filterControl.get('value').hasError('invalidOption')">{{ filterControl.get('value').getError('message') }}</span>
+                    </mat-error>
+                  </div>
+                  <div *ngIf="filterControl.get('operator')['value'] === '<' || filterControl.get('operator')['value'] === '<='|| filterControl.get('operator')['value'] === 'range' ">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Min</mat-label>
+                      <input type="text"
+                             placeholder="Pick one"
+                             aria-label="Number"
+                             matInput
+                             [formControl]="filterControl.get('min')"
+                             [matAutocomplete]="autoMin">
+                      <mat-autocomplete autoActiveFirstOption #autoMin="matAutocomplete">
+                        <mat-option *ngFor="let option of minOptions[i] | async" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="filterControl.get('min').invalid && (filterControl.get('min').touched)" class="text-danger pb-4">
+                      <span *ngIf="filterControl.get('min').hasError('invalidOption')">{{ filterControl.get('min').getError('message') }}</span>
+                    </mat-error>
+                  </div>
+                  <div *ngIf="filterControl.get('operator')['value'] === '>' || filterControl.get('operator')['value'] === '>=' || filterControl.get('operator')['value'] === 'range'" >
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Max</mat-label>
+                      <input type="text"
+                             placeholder="Max"
+                             matInput
+                             [formControl]="filterControl.get('max')"
+                             [matAutocomplete]="autoMax">
+                      <mat-autocomplete autoActiveFirstOption #autoMax="matAutocomplete">
+                        <mat-option *ngFor="let option of maxOptions[i] | async" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="filterControl.get('max').invalid && (filterControl.get('max').touched)" class="text-danger pb-4">
+                      <span *ngIf="filterControl.get('max').hasError('invalidOption')">{{ filterControl.get('max').getError('message') }}</span>
+                    </mat-error>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+          <button mat-raised-button type="button" (click)="AddFilter()" color="primary">Add Filter</button>
+        </form>
+      </mat-card-content>
+  </mat-card>
+</div>
