@@ -1,0 +1,15 @@
+
+// .card{
+//   max-width: 750px;
+// }
+.w75{
+  width: 600px;
+}
+.h50{
+  max-height: 348px;
+}
+@media screen and (min-width: 1500px) {
+  .h50{
+    max-height: 520px;
+  }
+}

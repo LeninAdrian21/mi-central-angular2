@@ -1,1 +1,45 @@
-<p>relations works!</p>
+<!-- <div class="container-fluid">
+  <div class="row">
+    <div class="col-6 d-flex flex-column">
+      <app-table [columns]="columns" [fields]="fields" [listName]="listName"></app-table>
+    </div>
+  </div>
+</div> -->
+<mat-card class="d-flex">
+  <mat-card-header>
+    <mat-toolbar  class="justify-content-center" color="primary">
+      <span class="text-capitalize">{{data.field}}</span>
+    </mat-toolbar>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-6" [ngClass]="{'col-md-12': !showForm, 'col-md-6': showForm}" >
+        <div class="w75">
+          <app-table [columns]="columns" [fields]="fields" [listName]="data.field"></app-table>
+          <div class="mt-4 mb-2 d-flex justify-content-between field">
+            <button mat-mini-fab color="accent" (click)="toggleForm()">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-mini-fab color="accent">
+              <mat-icon>check</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 w75 mt-3" *ngIf="showForm">
+        <mat-toolbar color="primary"  class="justify-content-center">
+          <span>{{title}} Form</span>
+        </mat-toolbar>
+        <div class="form overflow-y-auto overflow-x-hidden h50 mt-3">
+          <app-form [formInfo]="formInfo" [formName]="data.field" [btn]="btn" [update]="''" [relation]="true"></app-form>
+        </div>
+        <button mat-mini-fab class="mt-4 bg-danger" (click)="toggleForm()">
+          <mat-icon>remove</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+

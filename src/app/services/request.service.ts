@@ -14,7 +14,6 @@ export class RequestService {
   addUpdate = signal(false);
   submit = signal(false);
   addField = signal(false);
-  input = signal('');
   pagination = signal([]);
   totalCount = signal(false);
   NextPage = signal(false);

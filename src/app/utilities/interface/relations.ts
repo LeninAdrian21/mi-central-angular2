@@ -1,10 +1,11 @@
 import { AbstractControl, ValidationErrors } from "@angular/forms";
+import { DocumentNode } from "graphql";
 
-export interface data{
+export interface FormData{
   label: string;                               // Etiqueta para mostrar en el formulario.
   name: string;                                // Nombre del campo en el formulario.
   placeholder: string;                         // Marcador de posición para el campo de entrada.
-  type: 'text' | 'date'|'time' | 'select'| 'email' | 'password'| 'number'|'tel' |'textarea' | 'checkbox' | 'button';                                // Tipo de campo (por ejemplo, 'text', 'password', 'email', etc.).
+  type: 'text' | 'date'|'time' | 'select'| 'email' | 'password'| 'number'|'tel' |'textarea' | 'checkbox';                                // Tipo de campo (por ejemplo, 'text', 'password', 'email', etc.).
   validators: (
     (control: AbstractControl<any, any>)
     => ValidationErrors | null
@@ -20,43 +21,66 @@ export interface data{
   default: any;                                // Valor predeterminado del campo.
   table?: string;                              //Valor para valor de la tabla de busqueda del autocompletado de la relacion de la tabla
 }
-export interface form{
-  login:data[];
-  register:data[];
-  forgotPassword:data[];
-  cart:data[];
-  credit:data[];
-  user:data[];
-  dimension:data[];
-  egress:data[];
-  expense:data[];
-  history:data[];
-  income:data[];
-  lot:data[];
-  payment:data[];
-  payment_method:data[];
-  premise:data[];
-  product:data[];
-  promotion:data[];
-  provider:data[];
-  purchase:data[];
-  role:data[];
-  route:data[];
-  sale:data[];
-  seller:data[];
-  truck:data[];
+export interface Form{
+  cart:FormData[];
+  credit:FormData[];
+  user:FormData[];
+  dimension:FormData[];
+  egress:FormData[];
+  expense:FormData[];
+  history:FormData[];
+  income:FormData[];
+  lot:FormData[];
+  payment:FormData[];
+  payment_method:FormData[];
+  premise:FormData[];
+  product:FormData[];
+  promotion:FormData[];
+  provider:FormData[];
+  purchase:FormData[];
+  role:FormData[];
+  route:FormData[];
+  sale:FormData[];
+  seller:FormData[];
+  truck:FormData[];
 }
-export interface TableRelations {
+export  interface Table{
   [key: string]: {
     fields: {
-      position: string;
-      [otherField: string]: string;
+      [key: string]: string;
     };
-    columns: string[];
+    columns: ['select','position',...string[]];
     nameTable: string;
     search: string;
     title: string;
     select:boolean;
-    formInfo:data[];
+    formInfo:FormData[];
+    btn:string;
   };
+}
+export interface RelationsData {
+  field:string
+}
+export interface Query {
+  cart: DocumentNode;
+  credit: DocumentNode;
+  dimension: DocumentNode;
+  egress: DocumentNode;
+  expense: DocumentNode;
+  history: DocumentNode;
+  income: DocumentNode;
+  lot: DocumentNode;
+  payment: DocumentNode;
+  payment_method: DocumentNode;
+  premise: DocumentNode;
+  product: DocumentNode;
+  promotion: DocumentNode;
+  provider: DocumentNode;
+  purchase: DocumentNode;
+  role: DocumentNode;
+  route: DocumentNode;
+  sale: DocumentNode;
+  seller: DocumentNode;
+  truck: DocumentNode;
+  user: DocumentNode;
 }

@@ -9,6 +9,6 @@ import { info } from 'src/app/utilities/variables/form';
   ]
 })
 export class FormComponent {
-  formInfo:data[] = info.paymentMethod;
+  formInfo:data[] = info.payment_method;
   formName:string = 'paymentMethod';
 }

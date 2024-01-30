@@ -1,3 +1,4 @@
+import { DocumentNode } from "graphql";
 export interface OptionsFilter{
   label:string;
   value:string;
@@ -10,3 +11,8 @@ export interface Filter{
     }
   }
 }
+export interface Query {
+  [key:string]: DocumentNode;
+}
+
+
