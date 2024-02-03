@@ -7,7 +7,7 @@ import { RequestService } from 'src/app/services/request.service';
 import { Dialog } from '@angular/cdk/dialog';
 import { RelationsComponent } from 'src/app/shared/relations/relations.component';
 import { RelationsData } from 'src/app/utilities/interface/relations';
-import { message } from 'src/app/utilities/functions/message';
+import { FormManager,FormMaganerRelation, ValidForm } from 'src/app/utilities/functions/form';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -17,7 +17,7 @@ export class FormComponent implements OnInit {
   form!:FormGroup;
   service = inject(RequestService);
   router = inject(Router);
-  route = inject(ActivatedRoute);
+  routes = inject(ActivatedRoute);
   recaptcha=inject(ReCaptchaV3Service);
   activatedRoute = inject(ActivatedRoute);
   formBuilder = inject(FormBuilder);
@@ -52,13 +52,11 @@ export class FormComponent implements OnInit {
   }
   Form(){
     if(!this.relation){
-      this.service.submit.set(true);console.log("Submit")
-      if(this.form.invalid){
-        return message('Form is invalid','error');
-      }
-      this.service.addUpdate.set(true);
+      ValidForm(this.service,this.form)
+      FormManager[this.formName](this.service,this.form,this.routes,this.recaptcha)
     }else{
-
+      ValidForm(this.service,this.form);
+      FormMaganerRelation[this.formName](this.service,this.form,this.routes);
     }
   }
 }

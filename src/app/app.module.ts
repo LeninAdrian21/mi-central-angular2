@@ -9,6 +9,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './modules/nav/nav.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { environment } from 'environment';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +25,7 @@ import { NavComponent } from './modules/nav/nav.component';
     RecaptchaV3Module,
     MaterialModule,
     BrowserAnimationsModule,
+    SweetAlert2Module.forRoot(),
   ],
   providers: [{
     provide: RECAPTCHA_V3_SITE_KEY,
