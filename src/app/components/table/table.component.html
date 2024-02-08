@@ -2,46 +2,610 @@
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
 </mat-form-field>
-<section class="example-container mat-elevation-z8" tabindex="0">
-  <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="select">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                    [checked]="selection.hasValue() && isAllSelected()"
-                    [indeterminate]="selection.hasValue() && !isAllSelected()"
-                    [aria-label]="checkboxLabel()">
-      </mat-checkbox>
-    </th>
-    <td mat-cell *matCellDef="let row">
-      <mat-checkbox (click)="$event.stopPropagation()"
-                    (change)="$event ? selection.toggle(row) : null"
-                    [checked]="selection.isSelected(row)"
-                    [aria-label]="checkboxLabel(row)">
-      </mat-checkbox>
-    </td>
-  </ng-container>
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef> No. </th>
-      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-
-    <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-      <th mat-header-cell *matHeaderCellDef> Weight </th>
-      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-    </ng-container>
-
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef> Symbol </th>
-      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+<section class="example-container mat-elevation-z8" tabindex="0" (scroll)="OnScroll($event)">
+  <table mat-table [dataSource]="dataSource" >
+    <ng-container *ngFor="let column of displayedColumns; let i = index">
+      <ng-container [ngSwitch]="column">
+        <ng-container *ngSwitchCase="'select'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()"
+                            [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'position'">
+          <ng-container [matColumnDef]="'position'">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element; let i = index" class="text-center">{{i+1}}</td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'functions'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center p-0">Inventario</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              <div class="d-flex justify-content-between gap-2">
+                <button mat-mini-fab  class="efecto mr-4  bg-info text-white" data-text="Add products" (click)="Buy(element.id)">
+                  <mat-icon>shopping_cart</mat-icon>
+                </button>
+                <button mat-mini-fab class="efecto bg-success text-white" data-text="Remove products" (click)="Sell(element.id)">
+                  <mat-icon>shopping_basket</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class=" text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+              {{extraerFechaDesdeTexto(element[column])}}
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'carts'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.carts">
+                <div *ngFor="let cart of element.carts">
+                  <div *ngIf="cart" class="d-flex justify-content-center align-items-center">
+                    {{cart.amount}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'credit'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.credit" class="d-flex justify-content-center align-items-center">
+                {{element.credit.start_date}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'credits'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.credits">
+                <div *ngFor="let credit of element.credits">
+                  <div *ngIf="credit" class="d-flex justify-content-center align-items-center">
+                    {{credit.start_date}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'dimension'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.dimension" class="d-flex justify-content-center align-items-center">
+                {{element.dimension.name}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'egress'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.egress" class="d-flex justify-content-center align-items-center">
+                {{element.egress.name_product}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'egresses'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.egresses">
+                <div *ngFor="let egress of element.egresses">
+                  <div *ngIf="egress" class="d-flex justify-content-center align-items-center">
+                    {{egress.name_product}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'expenses'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.expenses">
+                <div *ngFor="let expense of element.expenses">
+                  <div *ngIf="expense" class="d-flex justify-content-center align-items-center">
+                    {{expense.description}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'histories'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.histories">
+                <div *ngFor="let history of element.histories">
+                  <div *ngIf="history" class="d-flex justify-content-center align-items-center">
+                    {{history.date}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'income'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.income" class="d-flex justify-content-center align-items-center">
+                {{element.income.product}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'lot'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.lot" class="d-flex justify-content-center align-items-center">
+                {{element.lot.internal_code}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'lots'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.lots">
+                <div *ngFor="let lot of element.lots">
+                  <div *ngIf="lot" class="d-flex justify-content-center align-items-center">
+                    {{lot.internal_code}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'payments'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.payments">
+                <div *ngFor="let payment of element.payments">
+                  <div *ngIf="payment" class="d-flex justify-content-center align-items-center">
+                    {{payment.amount}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'payment_method'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.payment_method" class="d-flex justify-content-center align-items-center">
+                {{element.payment_method.card_number}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'payment_methods'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.payment_methods">
+                <div *ngFor="let payment_method of element.payment_methods">
+                  <div *ngIf="payment_method" class="d-flex justify-content-center align-items-center">
+                    {{payment_method.card_number}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'premise'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.premise" class="d-flex justify-content-center align-items-center">
+                {{element.premise}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'premises'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.premises">
+                <div *ngFor="let premise of element.premises">
+                  <div *ngIf="premise" class="d-flex justify-content-center align-items-center">
+                    {{premise.name}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'products'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.products">
+                <div *ngFor="let product of element.products">
+                  <div *ngIf="product" class="d-flex justify-content-center align-items-center my-2">
+                    {{product.name}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'promotions'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.promotions">
+                <div *ngFor="let promotion of element.promotions">
+                  <div *ngIf="promotion" class="d-flex justify-content-center align-items-center">
+                    {{promotion.creation_date}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'provider'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.provider" class="d-flex justify-content-center align-items-center">
+                {{element.provider.name}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'purchases'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.purchases">
+                <div *ngFor="let purchase of element.purchases">
+                  <div *ngIf="purchase" class="d-flex justify-content-center align-items-center">
+                    {{purchase.cost}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'role'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.role" class="d-flex justify-content-center align-items-center">
+                {{element.role.role}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'routes'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.routes">
+                <div *ngFor="let route of element.routes">
+                  <div *ngIf="route" class="d-flex justify-content-center align-items-center">
+                    {{route.description}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'sale'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.sale" class="d-flex justify-content-center align-items-center">
+                {{element.sale.amount}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'sales'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.sales">
+                <div *ngFor="let sale of element.sales">
+                  <div *ngIf="sale" class="d-flex justify-content-center align-items-center">
+                    {{sale.amount}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'sellers'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.sales">
+                <div *ngFor="let seller of element.sellers">
+                  <div *ngIf="seller" class="d-flex justify-content-center align-items-center">
+                    {{seller.amount}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'truck'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.truck" class="d-flex justify-content-center align-items-center">
+                {{element.truck.serial_number}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'trucks'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.trucks">
+                <div *ngFor="let trucks of element.trucks">
+                  <div *ngIf="trucks" class="d-flex justify-content-center align-items-center">
+                    {{trucks.serial_number}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'custom_user'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.custom_user" class="d-flex justify-content-center align-items-center">
+                {{element.custom_user.name}} {{element.custom_user.last_name}} {{element.custom_user.middle_name}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'custom_users'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.custom_users">
+                <div *ngFor="let user of element.custom_users">
+                  <div *ngIf="user" class="d-flex justify-content-center align-items-center">
+                    {{user.name}} {{user.last_name}} {{user.middle_name}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'client'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.client" class="d-flex justify-content-center align-items-center">
+                {{element.client.name}} {{element.client.last_name}} {{element.client.middle_name}}
+                <span>
+                  <button mat-mini-fab class="ms-2">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'users'">
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef class="text-center">{{fields[column]}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+              <div *ngIf="element.users">
+                <div *ngFor="let user of element.users">
+                  <div *ngIf="user" class="d-flex justify-content-center align-items-center">
+                    {{user.name}} {{user.last_name}} {{user.middle_name}}
+                    <span>
+                      <button mat-mini-fab class="ms-2">
+                        <mat-icon >filter_list</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'actions'">
+          <ng-container [matColumnDef]="column" >
+            <th mat-header-cell *matHeaderCellDef class=" text-center">{{fields[column]}} </th>
+            <td  mat-cell *matCellDef="let element" class="text-center" >
+              <div class="d-flex justify-content-between gap-2">
+                <button mat-mini-fab color="primary" class="text-white" [routerLink]="[link+'/'+element.id]">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" class="text-white"(click)="Delete(element.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -51,6 +615,9 @@
       </td>
     </tr>
   </table>
+  <div *ngIf="service.charge()"  class="spinner mt-2">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
 </section>
 
 <!-- <mat-form-field>

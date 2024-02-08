@@ -53,7 +53,7 @@ export class FormComponent implements OnInit {
   Form(){
     if(!this.relation){
       ValidForm(this.service,this.form)
-      FormManager[this.formName](this.service,this.form,this.routes,this.recaptcha)
+      FormManager[this.formName](this.service,this.form,this.router,this.recaptcha)
     }else{
       ValidForm(this.service,this.form);
       FormMaganerRelation[this.formName](this.service,this.form,this.routes);

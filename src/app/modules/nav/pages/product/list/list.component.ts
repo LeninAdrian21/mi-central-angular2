@@ -9,7 +9,10 @@ import { table } from 'src/app/utilities/variables/list';
   ]
 })
 export class ListComponent {
+  title:string = 'Product';
   columns: string[] = table.product.columns;
   fields: Fields = table.product.fields;
   listName: string = 'product';
+  paginationData:string = 'paginationDataProduct';
+  link:string = '/product/form';
 }

@@ -9,7 +9,10 @@ import { table } from 'src/app/utilities/variables/list';
   ]
 })
 export class ListComponent {
+  title:string = 'Route'
   columns: string[] = table.route.columns;
   fields: Fields = table.route.fields;
   listName: string = 'route';
+  paginationData:string = 'paginationDataRoute';
+  link:string = '/route/form';
 }

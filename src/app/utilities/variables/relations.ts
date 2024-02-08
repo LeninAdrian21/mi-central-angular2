@@ -1908,10 +1908,10 @@ export const table:Table = {
     btn: 'Add User'
   },
 }
-export const query: Query  ={
+export const queryRelation: Query  ={
   carts: gql`
   query {
-    cart{
+    carts{
       id
       amount
     }

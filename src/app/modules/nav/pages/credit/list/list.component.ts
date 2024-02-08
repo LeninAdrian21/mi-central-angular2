@@ -9,7 +9,10 @@ import { table } from 'src/app/utilities/variables/list';
   ]
 })
 export class ListComponent {
+  title:string = 'Credit';
   columns: string[] = table.credit.columns;
   fields: Fields = table.credit.fields;
   listName: string = 'credit';
+  pagiationData:string = 'paginationDataCredit';
+  link: string = '/credit/form';
 }

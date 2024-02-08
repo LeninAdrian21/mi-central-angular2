@@ -5,8 +5,7 @@ import { FormComponent } from './form/form.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NavComponent } from '../../nav.component';
 import { SharedModule } from "../../../../shared/shared.module";
-import { ImportComponent } from './import/import.component';
-import { ExportComponent } from './export/export.component';
+
 const routes: Routes = [
   {
     path:'',
@@ -33,10 +32,8 @@ const routes: Routes = [
 ]
 @NgModule({
     declarations: [
-        ListComponent,
-        FormComponent,
-        ImportComponent,
-        ExportComponent
+      ListComponent,
+      FormComponent,
     ],
     imports: [
         CommonModule,

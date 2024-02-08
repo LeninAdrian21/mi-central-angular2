@@ -9,7 +9,10 @@ import { table } from 'src/app/utilities/variables/list';
   ]
 })
 export class ListComponent {
+  title:string = 'Payment Method'
   columns: string[] = table.payment_method.columns;
   fields: Fields = table.payment_method.fields;
   listName: string = 'payment_method';
+  paginationData:string = 'paginationDataPaymentMethod';
+  link:string = '/payment_method/form';
 }

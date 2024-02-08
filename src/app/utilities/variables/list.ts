@@ -9,7 +9,7 @@ import { Query, Table } from "../interface/list";
  * history:date
  * income:product
  * lot:internal_code
- * payment:amount
+ * paymaent:amount
  * payment_method:card_number
  * premise:name
  * product:name
@@ -366,7 +366,7 @@ export const query: Query  ={
           issue_date
           entry_date
           description
-          referense
+          reference
           type
           credits{
             id
@@ -422,7 +422,7 @@ export const query: Query  ={
           rfc
           start_date
           street
-          neigthborhood
+          neighborhood
           exterior_number
           municipality
           interior_number
@@ -476,10 +476,10 @@ export const query: Query  ={
           cost
           available_inventory
           min_value
-          bardcode
+          barcode
           internal_code
           status
-          unt_of_measure
+          unit_of_measure
           measurement
           carts{
             id
@@ -526,7 +526,7 @@ export const query: Query  ={
           creation_date
           expiration_date
           discount_value
-          reference_date
+          reference_code
           condition
           products{
             id
@@ -932,7 +932,7 @@ export const table:Table ={
       products:'Products Name',
       sale:'Sale Amount'
     },
-    columns: ['position', 'amount','products','sale']
+    columns: ['position','amount','products','sale']
   },
   credit: {
     fields: {
@@ -1100,7 +1100,7 @@ export const table:Table ={
       promotions:'Promotions Creation Date',
       provider:'Provider Name',
     },
-    columns: ['position','name',
+    columns: ['position','functions','name',
     'net_weight',
     'presentation',
     'brand',

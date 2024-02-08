@@ -1,27 +1,7 @@
 import { DocumentNode } from "graphql";
 
 export interface Query {
-  cart: DocumentNode;
-  credit: DocumentNode;
-  dimension: DocumentNode;
-  egress: DocumentNode;
-  expense: DocumentNode;
-  history: DocumentNode;
-  income: DocumentNode;
-  lot: DocumentNode;
-  payment: DocumentNode;
-  payment_method: DocumentNode;
-  premise: DocumentNode;
-  product: DocumentNode;
-  promotion: DocumentNode;
-  provider: DocumentNode;
-  purchase: DocumentNode;
-  role: DocumentNode;
-  route: DocumentNode;
-  sale: DocumentNode;
-  seller: DocumentNode;
-  truck: DocumentNode;
-  user: DocumentNode;
+  [key:string]: DocumentNode;
 }
 export interface Table {
   cart:TableData

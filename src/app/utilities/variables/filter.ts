@@ -636,7 +636,8 @@ export const filter:Filter = {
 export const query: Query  ={
   cart:gql`
   query {
-    cart{
+    carts{
+      id
       amount
       products{
         id

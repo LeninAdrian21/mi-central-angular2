@@ -9,7 +9,10 @@ import { table } from 'src/app/utilities/variables/list';
   ]
 })
 export class ListComponent {
+  title:string = 'Role';
   columns: string[] = table.role.columns;
   fields: Fields = table.role.fields;
   listName: string = 'role';
+  paginationData:string = 'paginationDataRole';
+  link:string = '/role/form';
 }

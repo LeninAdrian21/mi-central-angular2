@@ -1,4 +1,4 @@
-<mat-card class="mt-4 mx-4">
+<mat-card class="mt-4 mx-4" >
     <mat-card-header>
         <mat-card-title>{{title}}</mat-card-title>
         <mat-card-subtitle>List</mat-card-subtitle>
@@ -29,6 +29,8 @@
         </div>
     </mat-card-header>
     <mat-card-content>
-      <app-table [columns]="columns" [fields]="fields" [listName]="listName"></app-table>
+      <div class="container-fluid overflow-auto m-auto pb-4" >
+        <app-table [columns]="columns" [fields]="fields" [listName]="listName" (scrolled)="onTableScroll($event)" [link]="link"></app-table>
+      </div>
     </mat-card-content>
 </mat-card>

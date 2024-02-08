@@ -9,7 +9,11 @@ import { table } from 'src/app/utilities/variables/list';
   ]
 })
 export class ListComponent {
+  title:string = 'History'
   columns: string[] = table.history.columns;
   fields: Fields = table.history.fields;
   listName: string = 'history';
+  paginationData:string = 'paginationDataHistory';
+  link:string = '/history/form';
 }
+

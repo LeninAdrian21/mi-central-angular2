@@ -9,7 +9,10 @@ import { table } from 'src/app/utilities/variables/list';
   ]
 })
 export class ListComponent {
+  title:string = 'Dimension';
   columns: string[] = table.dimension.columns;
   fields: Fields = table.dimension.fields;
   listName: string = 'dimension';
+  paginationData:string = 'paginationDataDimension';
+  link:string = '/dimension/form';
 }

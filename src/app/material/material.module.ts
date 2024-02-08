@@ -20,6 +20,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {DialogModule} from '@angular/cdk/dialog';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 @NgModule({
   declarations: [],
   imports: [
@@ -51,7 +52,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatAutocompleteModule,
     DialogModule,
     MatChipsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressBarModule,
   ]
 })
 export class MaterialModule { }
