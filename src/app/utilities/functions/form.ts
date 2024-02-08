@@ -2,6 +2,7 @@ import { FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { RequestService } from "src/app/services/request.service";
 import { message } from "./message";
+import { filter } from '../variables/filter';
 export const ValidForm = (service:RequestService,form:FormGroup) => {
   service.submit.set(true);
   if(form.invalid){
@@ -49,8 +50,11 @@ export const FormManager:any = {
     })
   },
   cart:(service:RequestService,form:FormGroup, router:Router) => {
-    let data = form.value;
-    service.post('carts',data).subscribe(data =>{
+    let data:any = form.value;
+    data = Object.fromEntries(
+      Object.entries(data).filter(([key, value]) => value !== "")
+    );
+    service.post('carts',data).subscribe((data:any)=>{
       message('Successfully added cart','success');
       setTimeout(() =>{
         service.submit.set(false);
