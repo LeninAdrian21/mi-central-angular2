@@ -1919,7 +1919,7 @@ export const queryRelation: Query  ={
   `,
   credit: gql`
   query {
-    credit{
+    credits{
       id
       start_date
     }
@@ -1927,7 +1927,7 @@ export const queryRelation: Query  ={
   `,
   credits: gql`
   query {
-    credit{
+    credits{
       id
       start_date
     }
@@ -1935,14 +1935,14 @@ export const queryRelation: Query  ={
   `,
   dimension: gql`
   query {
-    dimension{
+    dimensions{
       id
       name
     }
   }`,
   egress: gql`
   query{
-    egres{
+    egresses{
       id
       name_product
     }
@@ -1950,7 +1950,7 @@ export const queryRelation: Query  ={
   `,
   egresses: gql`
   query{
-    egres{
+    egresses{
       id
       name_product
     }
@@ -1958,7 +1958,7 @@ export const queryRelation: Query  ={
   `,
   expenses: gql`
   query{
-    expense{
+    expenses{
       id
       description
     }
@@ -1966,14 +1966,14 @@ export const queryRelation: Query  ={
   `,
   histories: gql`
   query{
-    history{
+    histories{
       id
       date
     }
   }`,
   income: gql`
   query{
-    income{
+    incomes{
       id
       product
     }
@@ -1981,7 +1981,7 @@ export const queryRelation: Query  ={
   `,
   lot: gql`
   query{
-    lot{
+    lots{
       id
       internal_code
     }
@@ -1989,7 +1989,7 @@ export const queryRelation: Query  ={
   `,
   lots: gql`
   query{
-    lot{
+    lots{
       id
       internal_code
     }
@@ -1997,7 +1997,7 @@ export const queryRelation: Query  ={
   `,
   payments: gql`
   query{
-    payment{
+    payments{
       id
       amount
     }
@@ -2005,7 +2005,7 @@ export const queryRelation: Query  ={
   `,
   payment_method: gql`
   query{
-    payment_method{
+    paymentMethods{
       id
       card_number
     }
@@ -2013,7 +2013,7 @@ export const queryRelation: Query  ={
   `,
   payment_methods: gql`
   query{
-    payment_method{
+    paymentMethods{
       id
       card_number
     }
@@ -2021,7 +2021,7 @@ export const queryRelation: Query  ={
   `,
   premise: gql`
   query{
-    premise{
+    premises{
       id
       name
     }
@@ -2037,7 +2037,7 @@ export const queryRelation: Query  ={
   `,
   promotions: gql`
   query{
-    promotion{
+    promotions{
       id
       creation_date
     }
@@ -2045,7 +2045,7 @@ export const queryRelation: Query  ={
   `,
   provider: gql`
   query{
-    provider{
+    providers{
       id
       name
     }
@@ -2053,7 +2053,7 @@ export const queryRelation: Query  ={
   `,
   purchases: gql`
   query{
-    purchase{
+    purchases{
       id
       cost
     }
@@ -2061,7 +2061,7 @@ export const queryRelation: Query  ={
   `,
   role: gql`
   query{
-    role{
+    roleTypes{
       id
       role
     }
@@ -2069,7 +2069,7 @@ export const queryRelation: Query  ={
   `,
   routes: gql`
   query{
-    route{
+    routes{
       id
       description
     }
@@ -2077,7 +2077,7 @@ export const queryRelation: Query  ={
   `,
   sale: gql`
   query{
-    sale{
+    sales{
       id
       amount
     }
@@ -2085,7 +2085,7 @@ export const queryRelation: Query  ={
   `,
   sales: gql`
   query{
-    sale{
+    sales{
       id
       amount
     }
@@ -2093,7 +2093,7 @@ export const queryRelation: Query  ={
   `,
   sellers: gql`
   query{
-    seller{
+    sellers{
       id
       name
     }
@@ -2101,7 +2101,7 @@ export const queryRelation: Query  ={
   `,
   trucks: gql`
   query{
-    truck{
+    trucks{
       id
       serial_number
     }
@@ -2109,7 +2109,8 @@ export const queryRelation: Query  ={
   `,
   custom_user: gql`
   query{
-    user{
+    customUsers{
+      id
       name
       last_name
       middle_name
@@ -2118,7 +2119,8 @@ export const queryRelation: Query  ={
   `,
   custom_users: gql`
   query{
-    user{
+    customUsers{
+      id
       name
       last_name
       middle_name
@@ -2127,7 +2129,8 @@ export const queryRelation: Query  ={
   `,
   client: gql`
   query{
-    user{
+    customUsers{
+      id
       name
       last_name
       middle_name
@@ -2136,7 +2139,8 @@ export const queryRelation: Query  ={
   `,
   users: gql`
   query{
-    user{
+    customUsers{
+      id
       name
       last_name
       middle_name
