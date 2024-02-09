@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './modules/nav/nav.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { environment } from 'environment';
+import { ExpiredTokensInterceptor } from './interceptors/expired-tokens.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +31,7 @@ import { environment } from 'environment';
   providers: [{
     provide: RECAPTCHA_V3_SITE_KEY,
     useValue: "6Ld5Mv4oAAAAAKu35qemZsvEpZj9IIJwarJ7lKV1",
-  }],
+  },ExpiredTokensInterceptor],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })

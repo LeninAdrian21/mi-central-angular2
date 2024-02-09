@@ -16,7 +16,7 @@ export const nav:Nav[]=[
     routerLink:'/dimension/list',
     label:'Dimension',
     roles
-  },
+  }, 
   {
     routerLink:'/egress/list',
     label:'Egress',

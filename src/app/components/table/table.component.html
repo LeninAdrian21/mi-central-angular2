@@ -35,11 +35,11 @@
             <th mat-header-cell *matHeaderCellDef class="text-center p-0">Inventario</th>
             <td mat-cell *matCellDef="let element" class="text-center">
               <div class="d-flex justify-content-between gap-2">
-                <button mat-mini-fab  class="efecto mr-4  bg-info text-white" data-text="Add products" (click)="Buy(element.id)">
+                <button mat-mini-fab  class="efecto mr-4 text-white" color="primary" data-text="Add products" [routerLink]="'/egress/form/'+element.id">
                   <mat-icon>shopping_cart</mat-icon>
                 </button>
-                <button mat-mini-fab class="efecto bg-success text-white" data-text="Remove products" (click)="Sell(element.id)">
-                  <mat-icon>shopping_basket</mat-icon>
+                <button mat-mini-fab class="efecto bg-info text-white" data-text="Remove products" [routerLink]="'/income/form/'+ element.id">
+                  <mat-icon>shoping_basquet</mat-icon>
                 </button>
               </div>
             </td>

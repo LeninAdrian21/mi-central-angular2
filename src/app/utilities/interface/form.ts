@@ -23,7 +23,8 @@ export interface data{
 export interface form{
   login:data[];
   register:data[];
-  forgotPassword:data[];
+  resetPassword:data[];
+  newPassword:data[];
   cart:data[];
   credit:data[];
   user:data[];

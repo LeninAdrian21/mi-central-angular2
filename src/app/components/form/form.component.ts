@@ -32,6 +32,7 @@ export class FormComponent implements OnInit {
   constructor(private dialog:Dialog){}
   ngOnInit(){
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.service.Token.set(this.activatedRoute.snapshot.paramMap.get('token') as string);
     this.form = this.formBuilder.group({});
     this.formInfo.map((info: data) => {
       const control = this.formBuilder.control({
@@ -40,6 +41,18 @@ export class FormComponent implements OnInit {
       },info.validators);
       this.form.addControl(info.name,control);
     })
+    if(this.formName == 'egress'){
+      this.service.get('products/'+this.id).subscribe((data:any) =>{
+        this.form.get('name_product')?.setValue(data.name);
+      })
+    }
+    if(this.formName == 'income'){
+      this.service.get('products/'+this.id).subscribe((data:any) =>{
+        this.form.get('product')?.setValue(data.name);
+        this.form.get('price')?.setValue(data.price);
+        this.form.get('price')?.disable()
+      })
+    }
   }
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;

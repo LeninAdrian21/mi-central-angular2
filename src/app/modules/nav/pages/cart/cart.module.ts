@@ -6,19 +6,23 @@ import { RouterModule, Routes } from '@angular/router';
 import { NavComponent } from '../../nav.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { hasRoleGuard } from 'src/app/guard/has-role.guard';
 const routes: Routes = [
   {
     path:'',
     component: NavComponent,
+    canActivate: [hasRoleGuard],
     children:[
-      {path:'list',
-      // canActivate:[hasRoleGuard],
-      data:{allowedRoles:['Administrator','Client','Delivery man','Inventorist','Manager','Sales','Secretary','User']},
-      component:ListComponent},
-      {path:'form',
-      // canActivate:[hasRoleGuard],
-      data:{allowedRoles:['Administrator']
-
+      {
+        path:'list',
+        data:{
+          allowedRoles:['Administrator','Client','Delivery man','Inventorist','Manager','Sales','Secretary','User']
+        },
+        component:ListComponent,
+      },
+      {
+        path:'form',
+        data:{allowedRoles:['Administrator']
       },
       component:FormComponent},
       {path:'form/:id',

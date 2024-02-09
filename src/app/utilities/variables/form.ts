@@ -326,10 +326,24 @@ export const info:form ={
       ]
     },
   ],
-  forgotPassword: [
+  resetPassword: [
     {
       label: 'Email', type: 'email', placeholder: 'Email', name: 'email', validators: [Validators.required, Validators.email],
       email: 'No es un email', disabled: false, default: ''
+    },
+  ],
+  newPassword: [
+    {
+      label: 'New Password', type: 'password', placeholder: 'New password', name: 'new_password', validators: [Validators.required,Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*?&])(?!.*(.)\1)[A-Za-z\d$@!%*?&]{8,15}(?!\s)/), Validators.minLength(8), Validators.maxLength(15)],
+      minlength: 'The minimum number of characters is 8',
+      maxlength: 'The maximum number of characters is 15',
+      pattern: 'At least one lowercase letter, at least one uppercase letter, at least one digit, at least one special character ($@$!%*?&) and no duplicate digits and no spaces', disabled: false, default: ''
+    },
+    {
+      label: 'Confirm Password', type: 'password', placeholder: 'Confirm password', name: 'confirm_password', validators: [Validators.required,Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*?&])(?!.*(.)\1)[A-Za-z\d$@!%*?&]{8,15}(?!\s)/), Validators.minLength(8), Validators.maxLength(15)],
+      minlength: 'The minimum number of characters is 8',
+      maxlength: 'The maximum number of characters is 15',
+      pattern: 'At least one lowercase letter, at least one uppercase letter, at least one digit, at least one special character ($@$!%*?&) and no duplicate digits and no spaces', disabled: false, default: ''
     },
   ],
   cart: [
@@ -528,24 +542,15 @@ export const info:form ={
       disabled:false,
       default: '',
     },
-    {
-      label:'Total Egress',
-      name:'total_egress',
-      placeholder:'Total Egress',
-      type:'number',
-      validators: [Validators.required],
-      disabled:false,
-      default: '',
-    },
-    {
-      label:'Date',
-      name:'date',
-      placeholder:'Date',
-      type:'date',
-      validators: [Validators.required],
-      disabled:false,
-      default: '',
-    },
+    // {
+    //   label:'Date',
+    //   name:'date',
+    //   placeholder:'Date',
+    //   type:'date',
+    //   validators: [Validators.required],
+    //   disabled:false,
+    //   default: '',
+    // },
     {
       label:'Provider',
       name:'provider',
@@ -714,24 +719,24 @@ export const info:form ={
       disabled: false,
       default: '',
     },
-    {
-      label: 'Total Income',
-      name: 'total_income',
-      placeholder: 'Total Income',
-      type: 'number',
-      validators: [Validators.required],
-      disabled: false,
-      default: '',
-    },
-    {
-      label: 'Date',
-      name: 'date',
-      placeholder: 'Date',
-      type: 'date',
-      validators: [Validators.required],
-      disabled: false,
-      default: '',
-    },
+    // {
+    //   label: 'Total Income',
+    //   name: 'total_income',
+    //   placeholder: 'Total Income',
+    //   type: 'number',
+    //   validators: [Validators.required],
+    //   disabled: false,
+    //   default: '',
+    // },
+    // {
+    //   label: 'Date',
+    //   name: 'date',
+    //   placeholder: 'Date',
+    //   type: 'date',
+    //   validators: [Validators.required],
+    //   disabled: false,
+    //   default: '',
+    // },
     {
       label: 'Client',
       name: 'client',

@@ -2029,7 +2029,7 @@ export const queryRelation: Query  ={
   `,
   products: gql`
   query{
-    product{
+    products{
       id
       name
     }

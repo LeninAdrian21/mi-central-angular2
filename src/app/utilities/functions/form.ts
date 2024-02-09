@@ -34,19 +34,51 @@ export const FormManager:any = {
   },
   register:(service:RequestService,form:FormGroup, router:Router, recaptcha:any) => {
     recaptcha.execute('').subscribe(async (token:any) => {
-      let data = Object.assign(form.value,{recaptcha:token});
+      let data = Object.assign(form.getRawValue(),{recaptcha:token});
+      console.log(data);
       service.post('custom-users', data).subscribe((data:any) => {
-        message('User registered successfully!','success');
+        message('User registered successfully!. Check your email','success');
         setTimeout(() => {
           service.submit.set(false);
           service.addUpdate.set(false);
-          router.navigate(['/home']);
+          router.navigate(['/auth/login']);
         });
       },(error:any) => {
         message(error.error.message,'error');
         service.submit.set(false);
         service.addUpdate.set(false);
       })
+    })
+  },
+  resetPassword:(service:RequestService,form:FormGroup, router:Router, recaptcha:any) => {
+    let data = form.getRawValue()
+    service.post('custom-users/reset-password', data).subscribe((data:any) => {
+      message('Check your email, a link is sent to reset password','success');
+      setTimeout(() => {
+        service.submit.set(false);
+        service.addUpdate.set(false);
+        router.navigate(['/auth/login']);
+      });
+    },(error:any) => {
+      message(error,'error');
+      service.submit.set(false);
+      service.addUpdate.set(false);
+    })
+  },
+  newPassword:(service:RequestService,form:FormGroup, router:Router, recaptcha:any) => {
+    let data = form.getRawValue();
+    console.log(data);
+    service.post('custom-users/new-password/'+ service.Token(), data).subscribe((data:any) => {
+      message('Check your email, a link is sent to reset password','success');
+      setTimeout(() => {
+        service.submit.set(false);
+        service.addUpdate.set(false);
+        router.navigate(['/auth/login']);
+      });
+    },(error:any) => {
+      message(error,'error');
+      service.submit.set(false);
+      service.addUpdate.set(false);
     })
   },
   cart:(service:RequestService,form:FormGroup, router:Router) => {
@@ -119,7 +151,7 @@ export const FormManager:any = {
     });
   },
   income: (service: RequestService, form: FormGroup, router: Router) => {
-    let data = form.value;
+    let data = form.getRawValue();
     service.post('incomes', data).subscribe(data => {
       message('Successfully added income', 'success');
       setTimeout(() => {

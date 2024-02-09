@@ -1,10 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { hasRoleGuard } from './guard/has-role.guard';
 
 const routes: Routes = [
-  {path:'auth', loadChildren: () => import('./modules/auth/auth.module').then(m=>m.AuthModule)},
-  {path:'home', loadChildren: () => import('./modules/nav/pages/home/home.module').then(m=>m.HomeModule)},
-  {path:'cart', loadChildren: () => import('./modules/nav/pages/cart/cart.module').then(m=>m.CartModule)},
+  {
+    path:'auth', loadChildren: () => import('./modules/auth/auth.module').then(m=>m.AuthModule)
+  },
+  {
+    path:'home', loadChildren: () => import('./modules/nav/pages/home/home.module').then(m=>m.HomeModule),
+    canActivate: [hasRoleGuard],
+    data: {
+      allowedRoles: ['Administrator', 'Client', 'Delivery man', 'Inventorist', 'Manager', 'Sales', 'Secretary', 'User']
+    }
+  },
+  {
+    path:'cart', loadChildren: () => import('./modules/nav/pages/cart/cart.module').then(m=>m.CartModule),
+    canActivate: [hasRoleGuard],
+    data: {
+      allowedRoles: ['Administrator', 'Client', 'Delivery man', 'Inventorist', 'Manager', 'Sales', 'Secretary', 'User']
+    }
+  },
   {path:'credit', loadChildren: () => import('./modules/nav/pages/credit/credit.module').then(m=>m.CreditModule)},
   {path:'dimension', loadChildren: () => import('./modules/nav/pages/dimension/dimension.module').then(m=>m.DimensionModule)},
   {path:'egress', loadChildren: () => import('./modules/nav/pages/egress/egress.module').then(m=>m.EgressModule)},

@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="Form" class="w-100">
   <div class="row">
-    <div class="form-group" [ngClass]="{'col-4': formName !== 'login' && formName !== 'forgotPassword' && !relation}"  *ngFor="let field of formInfo" [ngSwitch]="field.type">
+    <div class="form-group" [ngClass]="{'col-4': formName !== 'login' && formName !== 'resetPassword' && formName !== 'newPassword' && !relation}"  *ngFor="let field of formInfo" [ngSwitch]="field.type">
       <ng-container *ngSwitchCase="'text'">
         <mat-form-field appearance="fill" class="w-100">
           <mat-label>{{field.label}}</mat-label>
