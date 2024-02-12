@@ -2041,6 +2041,7 @@ export const info:form ={
       disabled: false,
       default: '',
     },
+    
   ],
   user: [
     {

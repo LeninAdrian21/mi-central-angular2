@@ -13,4 +13,6 @@ export class ListComponent {
   fields: Fields = table.egress.fields;
   listName: string = 'egress';
   paginationData:string = 'paginationDataEgress';
+  getData:string = 'egresses';
+  link:string = '/egress/form'
 }

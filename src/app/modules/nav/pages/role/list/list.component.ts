@@ -13,6 +13,7 @@ export class ListComponent {
   columns: string[] = table.role.columns;
   fields: Fields = table.role.fields;
   listName: string = 'role';
-  paginationData:string = 'paginationDataRole';
+  paginationData:string = 'paginationDataRoleType';
+  getData:string = 'roleTypes';
   link:string = '/role/form';
 }

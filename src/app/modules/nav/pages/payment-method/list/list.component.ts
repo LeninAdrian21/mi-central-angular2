@@ -14,5 +14,6 @@ export class ListComponent {
   fields: Fields = table.payment_method.fields;
   listName: string = 'payment_method';
   paginationData:string = 'paginationDataPaymentMethod';
+  getData:string = 'paymentMethods';
   link:string = '/payment_method/form';
 }

@@ -3,13 +3,24 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { RequestService } from "src/app/services/request.service";
 import { message } from "./message";
 import { filter } from '../variables/filter';
-export const ValidForm = (service:RequestService,form:FormGroup) => {
+import { queryRelation } from "../variables/relations";
+import Swal from "sweetalert2";
+export const ValidForm = (relation:boolean,formName:string,service:RequestService,form:FormGroup, router:Router, recaptcha:any) => {
   service.submit.set(true);
   if(form.invalid){
     return message('Form is invalid','error');
   }
   service.addUpdate.set(true);
+  return functionsForm(relation,formName,service,form, router, recaptcha);
 }
+const functionsForm = (relation:boolean,formName:string,service:RequestService,form:FormGroup, router:Router, recaptcha:any) => {
+  if(relation){
+    return FormRelationManager[formName](formName,service,form,router);
+  }else{
+    return FormManager[formName](service,form,router,recaptcha);
+  }
+}
+
 export const FormManager:any = {
   login:(service:RequestService,form:FormGroup, router:Router, recaptcha:any) => {
     recaptcha.execute('').subscribe(async (token:any) => {
@@ -82,15 +93,22 @@ export const FormManager:any = {
     })
   },
   cart:(service:RequestService,form:FormGroup, router:Router) => {
-    let data:any = form.value;
+    let data: any = form.value;
     data = Object.fromEntries(
-      Object.entries(data).filter(([key, value]) => value !== "")
+      Object.entries(data).filter(([key, value]) =>
+        value !== undefined &&
+        value !== null &&
+        !(Array.isArray(value) && value.length === 0) &&
+        !(typeof value === 'object' && Object.keys(value).length === 0) &&
+        value !== ""
+      )
     );
     service.post('carts',data).subscribe((data:any)=>{
       message('Successfully added cart','success');
       setTimeout(() =>{
         service.submit.set(false);
         service.addUpdate.set(false);
+        service.entryCreated.set(true);
         router.navigate(['/cart/list']);
       });
     },(error:any) => {
@@ -457,13 +475,13 @@ export const FormManager:any = {
     });
   },
 }
-export const FormMaganerRelation:any={
-  carts: (service: any, form: FormGroup, router: Router) => {
+export const FormRelationManager:any={
+  carts: (formName:string,service: RequestService, form: FormGroup, router: Router) => {
     let data:any = form.value;
     data = Object.fromEntries(
       Object.entries(data).filter(([key, value]) => value !== "")
     );
-    service.pagination$ = data
+    // service.pagination$ = data
     service.post('carts', data).subscribe((data: any) => {
       message('Successfully added carts', 'success');
       setTimeout(() => {
@@ -476,6 +494,7 @@ export const FormMaganerRelation:any={
       service.submit.set(false);
       service.addUpdate.set(false);
     });
+    service.GetDataRelation(queryRelation[formName].query,queryRelation[formName].name,true);
   },
   credit: (service: any, form: FormGroup, router: Router) => {
     let data:any = form.value;
@@ -781,24 +800,27 @@ export const FormMaganerRelation:any={
       service.addUpdate.set(false);
     });
   },
-  products: (service: any, form: FormGroup, router: Router) => {
+  products: (formName:string,service: RequestService, form: FormGroup, router: Router) => {
     let data:any = form.value;
-    data = Object.fromEntries(
-      Object.entries(data).filter(([key, value]) => value !== "")
-    );
-    service.pagination$ = data
     service.post('products', data).subscribe((data: any) => {
+      // console.log(data);
+      const info:any[] = service.pagination().concat(data);
+      // info.push(service.pagination());
+      // info.push(data);
+      service.pagination.set(info);
       message('Successfully added products', 'success');
       setTimeout(() => {
         service.submit.set(false);
         service.addUpdate.set(false);
-
       });
     },(error:any) => {
+      console.log('error');
       message(error);
       service.submit.set(false);
       service.addUpdate.set(false);
     });
+    // service.GetDataRelation(queryRelation[formName].query,queryRelation[formName].name,false);
+    // service.GetDataRelation(queryRelation[formName].query,queryRelation[formName].name,true);
   },
   promotions: (service: any, form: FormGroup, router: Router) => {
     let data:any = form.value;
@@ -1066,4 +1088,81 @@ export const FormMaganerRelation:any={
       service.addUpdate.set(false);
     });
   },
+}
+
+//para actualizar datos del formulario al comienzo del component
+export const update: any = {
+  cart:(service:RequestService, id:string, form:FormGroup,router:Router) => {
+    service.get('carts/' + id).subscribe((data:any)=> {
+      Object.keys(data).forEach(key =>{
+        if(form.controls[key]){
+          console.log(key);
+          form.controls[key].setValue(data[key]);
+        }
+      })
+      console.log(form.value);
+    },(error:any) => {
+      Swal.fire({
+        title: "Error!",
+        text: "Unable to perform the update.",
+        icon: "error",
+        showConfirmButton: false,
+        timer:1700
+      })
+      setTimeout(() => {
+        router.navigate(['/cart/list']);
+      },2000);
+    })
+  }
+}
+export const ValidFormUpdate:any = (formName:string,id:string,service:RequestService,form:FormGroup, router:Router) => {
+  // console.log(service.submit());
+  service.submit.set(true);
+  if(form.invalid){
+    return message('Form is invalid','error');
+  }
+  service.addUpdate.set(true);
+  alert('update')
+  return updateForm[formName](service,id,form,router);
+}
+//funciones para actualiza los datos del campo en la base de datos
+export const updateForm:any = {
+  cart:(service:RequestService, id:string, form:FormGroup,router:Router) => {
+    let data: any = form.value;
+    data = Object.fromEntries(
+      Object.entries(data).filter(([key, value]) =>
+        value !== undefined &&
+        value !== null &&
+        !(Array.isArray(value) && value.length === 0) &&
+        !(typeof value === 'object' && Object.keys(value).length === 0) &&
+        value !== ""
+      )
+    );
+    console.log('data', data);
+    service.put('carts/' + id, data).subscribe((data:any)=> {
+      Swal.fire({
+        title: "Success!",
+        text: "Successfully updated the cart.",
+        icon: "success",
+        showConfirmButton: false,
+        timer:1700
+      })
+      setTimeout(() => {
+        service.submit.set(false);
+        service.addUpdate.set(false);
+        router.navigate(['/cart/list']);
+      },2000);
+    },(error:any) => {
+      Swal.fire({
+        title: "Error!",
+        text: "Unable to perform the update.",
+        icon: "error",
+        showConfirmButton: false,
+        timer:1700
+      })
+      setTimeout(() => {
+        router.navigate(['/cart/list']);
+      },2000);
+    })
+  }
 }

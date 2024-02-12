@@ -20,7 +20,13 @@ const routes: Routes = [
       allowedRoles: ['Administrator', 'Client', 'Delivery man', 'Inventorist', 'Manager', 'Sales', 'Secretary', 'User']
     }
   },
-  {path:'credit', loadChildren: () => import('./modules/nav/pages/credit/credit.module').then(m=>m.CreditModule)},
+  {
+    path:'credit', loadChildren: () => import('./modules/nav/pages/credit/credit.module').then(m=>m.CreditModule),
+    canActivate: [hasRoleGuard],
+    data: {
+      allowedRoles: ['Administrator', 'Client', 'Delivery man', 'Inventorist', 'Manager', 'Sales', 'Secretary', 'User']
+    }
+  },
   {path:'dimension', loadChildren: () => import('./modules/nav/pages/dimension/dimension.module').then(m=>m.DimensionModule)},
   {path:'egress', loadChildren: () => import('./modules/nav/pages/egress/egress.module').then(m=>m.EgressModule)},
   {path:'expense', loadChildren: () => import('./modules/nav/pages/expense/expense.module').then(m=>m.ExpenseModule)},

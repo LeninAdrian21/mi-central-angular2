@@ -14,5 +14,6 @@ export class ListComponent {
   fields: Fields = table.lot.fields;
   listName: string = 'lot';
   paginationData: string = 'paginationDataLot';
+  getData: string = 'lots';
   link: string = '/lot/form';
 }

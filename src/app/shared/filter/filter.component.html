@@ -1,5 +1,5 @@
 <div>
-  <mat-card>
+  <mat-card class="overflow-y-auto overflow-x-hidden h50 mt-4">
       <mat-card-header>
         <mat-toolbar>
             <span>Filter</span>
@@ -57,7 +57,7 @@
                              [matAutocomplete]="autoValue">
                       <mat-autocomplete autoActiveFirstOption #autoValue="matAutocomplete">
                         <mat-option *ngFor="let option of valueOptions[i] | async" [value]="option">
-                          {{option}}
+                          {{getText(option)}}
                         </mat-option>
                       </mat-autocomplete>
                     </mat-form-field>
@@ -65,7 +65,7 @@
                       <span *ngIf="filterControl.get('value').hasError('invalidOption')">{{ filterControl.get('value').getError('message') }}</span>
                     </mat-error>
                   </div>
-                  <div *ngIf="filterControl.get('operator')['value'] === '<' || filterControl.get('operator')['value'] === '<='|| filterControl.get('operator')['value'] === 'range' ">
+                  <div *ngIf="filterControl.get('operator')['value'] === '>' || filterControl.get('operator')['value'] === '>='|| filterControl.get('operator')['value'] === 'range' ">
                     <mat-form-field appearance="fill" class="w-100">
                       <mat-label>Min</mat-label>
                       <input type="text"
@@ -76,7 +76,7 @@
                              [matAutocomplete]="autoMin">
                       <mat-autocomplete autoActiveFirstOption #autoMin="matAutocomplete">
                         <mat-option *ngFor="let option of minOptions[i] | async" [value]="option">
-                          {{option}}
+                          {{getText(option)}}
                         </mat-option>
                       </mat-autocomplete>
                     </mat-form-field>
@@ -84,7 +84,7 @@
                       <span *ngIf="filterControl.get('min').hasError('invalidOption')">{{ filterControl.get('min').getError('message') }}</span>
                     </mat-error>
                   </div>
-                  <div *ngIf="filterControl.get('operator')['value'] === '>' || filterControl.get('operator')['value'] === '>=' || filterControl.get('operator')['value'] === 'range'" >
+                  <div *ngIf="filterControl.get('operator')['value'] === '<' || filterControl.get('operator')['value'] === '<=' || filterControl.get('operator')['value'] === 'range'" >
                     <mat-form-field appearance="fill" class="w-100">
                       <mat-label>Max</mat-label>
                       <input type="text"
@@ -94,7 +94,7 @@
                              [matAutocomplete]="autoMax">
                       <mat-autocomplete autoActiveFirstOption #autoMax="matAutocomplete">
                         <mat-option *ngFor="let option of maxOptions[i] | async" [value]="option">
-                          {{option}}
+                          {{getText(option)}}
                         </mat-option>
                       </mat-autocomplete>
                     </mat-form-field>
@@ -109,5 +109,11 @@
           <button mat-raised-button type="button" (click)="AddFilter()" color="primary">Add Filter</button>
         </form>
       </mat-card-content>
+      <div mat-dialog-actions class="d-flex justify-content-center mt-5 mb-4" style="gap: 10px;">
+        <button mat-button type="button" class="bg-success" cdkFocusInitial (click)="Filter()">Accept</button>
+        <button mat-button (click)="Close()" class="bg-danger">Close</button>
+      </div>
+      <!-- <mat-card-actions align="start">
+      </mat-card-actions> -->
   </mat-card>
 </div>

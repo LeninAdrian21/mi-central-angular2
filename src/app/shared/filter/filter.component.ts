@@ -1,8 +1,11 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, OnInit, inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, AbstractControl, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, map, startWith } from 'rxjs';
+import { message } from 'src/app/utilities/functions/message';
 import { filter } from 'src/app/utilities/variables/filter';
+import { ListComponent } from '../list/list.component';
 
 @Component({
   selector: 'app-filter',
@@ -10,7 +13,6 @@ import { filter } from 'src/app/utilities/variables/filter';
   styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnInit {
-  dialogRef= inject(DialogRef);
   formBuilder = inject(FormBuilder);
   form!: FormGroup;
   fields:any[]=filter[this.data.listName].fields;
@@ -19,7 +21,8 @@ export class FilterComponent implements OnInit {
   valueOptions: Array<Observable<any[]>> = [];
   minOptions: Array<Observable<any[]>> = [];
   maxOptions: Array<Observable<any[]>> = [];
-  constructor(@Inject(DIALOG_DATA) public data: any) {}
+  constructor(public dialogRef: MatDialogRef<ListComponent>,
+    @Inject(MAT_DIALOG_DATA) public data:any,) {}
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       filters: this.formBuilder.array([]),
@@ -133,14 +136,14 @@ export class FilterComponent implements OnInit {
           min.setValue('');
           max.disable();
           max.setValue('');
-        } else if (selectedOperator === '<' || selectedOperator === '<=') {
+        } else if (selectedOperator === '>' || selectedOperator === '>=') {
           min.enable();
           min.setValidators([Validators.required, this.validateOptionValue()]);
           value.disable();
           value.setValue('');
           max.disable();
           max.setValue('');
-        } else if (selectedOperator === '>' || selectedOperator === '>=') {
+        } else if (selectedOperator === '<' || selectedOperator === '<=') {
           max.enable();
           max.setValidators([Validators.required, this.validateOptionValue()]);
           value.disable();
@@ -161,20 +164,21 @@ export class FilterComponent implements OnInit {
         max.updateValueAndValidity();
       });
 
-      min.valueChanges.subscribe((minValue:any) => {
-        if(operator.value == 'range'){
-          max.setValue('');
-          max.enable();
-          const fieldValue = field.value || '';
-          const filteredMaxOptions:any = this.data.dataFilter[fieldValue].filter((value: any) => value > minValue);
-          this.maxOptions[
-            this.filtersForm.controls.length - 1
-          ] = max.valueChanges.pipe(
-              startWith(''),
-            map((value: any) => this._filterValue(value, filteredMaxOptions))
-          );
-        }
-      });
+      // min.valueChanges.subscribe((minValue:any) => {
+      //   if(operator.value == 'range'){
+      //     max.setValue('');
+      //     max.enable();
+      //     const fieldValue = field.value || '';
+      //     const filteredMaxOptions:any = this.data.dataFilter[fieldValue].filter((value: any) => value > minValue);
+      //     this.maxOptions[
+      //       this.filtersForm.controls.length - 1
+      //     ] = max.valueChanges.pipe(
+      //         startWith(''),
+      //       map((value: any) => this._filterValue(value, filteredMaxOptions))
+      //     );
+      //   }
+      // }
+      // );
     }
   }
   RemovedFilter(index: number): void {
@@ -187,7 +191,7 @@ export class FilterComponent implements OnInit {
   Filter(){
     // this.submit = true;
     if(this.form.invalid){
-      // return Mensaje('Form is invalid.')
+      return message('Form is invalid.')
     }
     let dataValue: any = this.form.getRawValue().filters;
     dataValue = dataValue.map((filter: any) => Object.fromEntries(
@@ -195,6 +199,7 @@ export class FilterComponent implements OnInit {
         .filter(([key, value]) => value !== undefined && value !== '')
         .map(([key, value]) => [key, String(value)])
     ));
+    console.log(dataValue);
     this.dialogRef.close(dataValue);
   }
   Close(){

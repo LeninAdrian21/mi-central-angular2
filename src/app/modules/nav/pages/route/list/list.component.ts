@@ -14,5 +14,6 @@ export class ListComponent {
   fields: Fields = table.route.fields;
   listName: string = 'route';
   paginationData:string = 'paginationDataRoute';
+  getData:string = 'routes';
   link:string = '/route/form';
 }

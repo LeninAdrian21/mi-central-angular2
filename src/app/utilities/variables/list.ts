@@ -23,7 +23,7 @@ import { Query, Table } from "../interface/list";
  * truck:serial_number
  * user:name last_name middle_name
  */
-export const query: Query  ={
+export const query: Query={
   cart:gql`
   query paginationDataCart(
     $start: Int
@@ -45,6 +45,12 @@ export const query: Query  ={
           products{
             id
             name
+          }
+          custom_user{
+            id
+            name
+            last_name
+            middle_name
           }
           sale{
             id
@@ -930,9 +936,10 @@ export const table:Table ={
     fields: {
       amount:'Amount',
       products:'Products Name',
+      custom_user:'User Name',
       sale:'Sale Amount'
     },
-    columns: ['position','amount','products','sale']
+    columns: ['position','amount','products','custom_user','sale']
   },
   credit: {
     fields: {
@@ -1220,15 +1227,16 @@ export const table:Table ={
   },
   truck:{
     fields: {
-      plate_details:'Plate Details',
       serial_number:'Serial Number',
       vin:'Vin',
+      plate:'Plate Active',
+      state:'Plate State',
       expenses:'Expenses Description',
       histories:'Histories Date',
       routes:'Routes Description',
       custom_user:'User Name'
     },
-    columns: ['position','plate_details','serial_number','vin','expenses','histories','routes','custom_user']
+    columns: ['position','plate','state','serial_number','vin','expenses','histories','routes','custom_user']
   },
   user: {
     fields:{

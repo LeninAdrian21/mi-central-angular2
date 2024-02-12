@@ -1,15 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, effect, inject, signal } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { RequestService } from 'src/app/services/request.service';
+import { deleteInput } from 'src/app/utilities/functions/table';
 import { Fields } from 'src/app/utilities/interface/list';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-table',
@@ -17,35 +12,49 @@ export interface PeriodicElement {
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit{
-Delete(arg0: any) {
-throw new Error('Method not implemented.');
-}
 
   @Input({required: true}) columns!:string[];
   @Input({required: true}) fields!:Fields;
   @Input({required: true}) listName!:string;
-  @Input()select:boolean = false;
-  @Input()relation:boolean = false;
   @Input()link:string = "";
+  @Input()select!:boolean;
+  @Input()relation!:boolean;
+  @Input()tableSelectedData:any = [];
   @Output()scrolled:EventEmitter<Event> = new EventEmitter<Event>();
+  @Output()selectedData = new EventEmitter<any[]>();
   service = inject(RequestService);
   displayedColumns:string[] = [];
   dataSource = new MatTableDataSource();
   selection:any;
   items:any[]  = [];
-  ngOnInit(): void {
-    console.log(this.listName);
-    // this.dataSource.data.forEach( data => {
-    //   if(data.name.includes('Neon')){
-    //     this.selection.select(data)
-    //   }
-    // })
-    this.displayedColumns = this.columns;
-    this.selection = new SelectionModel<any>();
-    this.service.pagination$.subscribe(data => {
-      this.items.push(...data);
-      this.dataSource.data = this.items;
+  roleEdit: string[] = ['Administrator']
+  roleDelete: string[] = ['Administrator']
+  roleActions: string[] = ['Administrator']
+  role!:string;
+  constructor(){
+    effect(() => {
+      const data = this.service.pagination();
+      this.dataSource.data = data;
+      this.selection = new SelectionModel<any>(this.select);
+      if(this.tableSelectedData.length > 0) {
+        this.dataSource.data.forEach((data:any) => {
+          if (this.tableSelectedData.some((selectedItem: { _id: any; }) => selectedItem._id === data.id)) {
+            this.selection.select(data);
+          }
+        });
+      }
     })
+  }
+  ngOnInit(): void {
+    this.service.getRole().subscribe(role => {
+      this.role = role;
+      if(this.roleActions.includes(role)){
+        this.columns = [...this.columns,'actions'];
+        this.displayedColumns = this.columns;
+      }else{
+        this.displayedColumns = this.columns;
+      }
+    });
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -67,10 +76,12 @@ throw new Error('Method not implemented.');
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?:any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
+    this.selectedData.emit(this.selection.selected);
+    // this.service.selections.set(this.selection.selected);
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
   OnScroll(event: Event) {
@@ -92,4 +103,19 @@ throw new Error('Method not implemented.');
 
   }
   Sell(id:string){}
+  Delete(id: string) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteInput[this.listName](id,this.service,)
+      }
+    });
+  }
 }

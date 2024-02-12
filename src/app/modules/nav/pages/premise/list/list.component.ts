@@ -14,5 +14,6 @@ export class ListComponent {
   fields: Fields = table.premise.fields;
   listName: string = 'premise';
   paginationData:string = 'paginationDataPremise';
+  getData:string = 'premises';
   link:string = '/premise/form';
 }

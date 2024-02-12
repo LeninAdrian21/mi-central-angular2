@@ -14,6 +14,7 @@ export class ListComponent {
   fields: Fields = table.history.fields;
   listName: string = 'history';
   paginationData:string = 'paginationDataHistory';
+  getData:string = 'histories';
   link:string = '/history/form';
 }
 

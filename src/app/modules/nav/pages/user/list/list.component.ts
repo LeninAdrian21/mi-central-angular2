@@ -13,6 +13,7 @@ export class ListComponent {
   columns: string[] = table.user.columns;
   fields: Fields = table.user.fields;
   listName: string = 'user';
-  paginationData:string = 'paginationDataUser';
+  paginationData:string = 'paginationDataCustomUser';
+  getData:string = 'customUsers';
   link:string = '/user/form';
 }

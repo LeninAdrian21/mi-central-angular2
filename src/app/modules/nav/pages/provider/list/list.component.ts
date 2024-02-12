@@ -14,5 +14,6 @@ export class ListComponent {
   fields: Fields = table.provider.fields;
   listName: string = 'provider';
   paginationData: string = 'paginationDataProvider';
+  getData: string = 'providers';
   link: string = '/provider/form';
 }

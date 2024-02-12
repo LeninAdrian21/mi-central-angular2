@@ -1,6 +1,5 @@
 import { Validators } from "@angular/forms";
-import { Form, Table } from "../interface/relations";
-import { Query } from "../interface/filter";
+import { Form, Query, Table } from "../interface/relations";
 import { gql } from "apollo-angular";
 const form:Form = {
   cart: [
@@ -1559,7 +1558,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'Credit',
-    select: false,
+    select: true,
     formInfo: form.credit,
     btn: 'Add Credit'
   },
@@ -1595,7 +1594,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'Egress',
-    select: false,
+    select: true,
     formInfo: form.egress,
     btn: 'Add Egress'
   },
@@ -1606,8 +1605,8 @@ export const table:Table = {
     columns: ['select', 'position', 'description'],
     nameTable: '',
     search: '',
-    title: 'Expense',
-    select: false,
+    title: 'Expenses',
+    select: true,
     formInfo: form.expense,
     btn: 'Add Expense',
   },
@@ -1619,7 +1618,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'History',
-    select: false,
+    select: true,
     formInfo: form.history,
     btn: 'Add History'
   },
@@ -1655,7 +1654,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'Lot',
-    select: false,
+    select: true,
     formInfo: form.lot,
     btn: 'Add Lot'
   },
@@ -1667,7 +1666,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'Payment',
-    select: false,
+    select: true,
     formInfo: form.payment,
     btn: 'Add Payment',
   },
@@ -1691,7 +1690,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'Payment Method',
-    select: false,
+    select: true,
     formInfo: form.payment_method,
     btn: 'Add Payment Method'
   },
@@ -1715,7 +1714,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'Premise',
-    select: false,
+    select: true,
     formInfo: form.premise,
     btn: 'Add Premise'
   },
@@ -1727,7 +1726,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'Product',
-    select: false,
+    select: true,
     formInfo: form.product,
     btn: 'Add Product'
   },
@@ -1739,7 +1738,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'Promotion',
-    select: false,
+    select: true,
     formInfo: form.promotion,
     btn: 'Add Promotion',
   },
@@ -1763,7 +1762,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'Purchase',
-    select: false,
+    select: true,
     formInfo: form.purchase,
     btn: 'Add Purchase',
   },
@@ -1786,8 +1785,8 @@ export const table:Table = {
     columns: ['select', 'position', 'description'],
     nameTable: '',
     search: '',
-    title: 'Route',
-    select: false,
+    title: 'Routes',
+    select: true,
     formInfo: form.route,
     btn: 'Add Route',
   },
@@ -1810,8 +1809,8 @@ export const table:Table = {
     columns: ['select', 'position', 'amount'],
     nameTable: '',
     search: '',
-    title: 'Sale',
-    select: false,
+    title: 'Sales',
+    select: true,
     formInfo: form.sale,
     btn: 'Add Sale'
   },
@@ -1823,7 +1822,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'Seller',
-    select: false,
+    select: true,
     formInfo: form.seller,
     btn: 'Add Seller'
   },
@@ -1847,7 +1846,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'Truck',
-    select: false,
+    select: true,
     formInfo: form.truck,
     btn: 'Add Truck'
   },
@@ -1875,7 +1874,7 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'User',
-    select: false,
+    select: true,
     formInfo: form.user,
     btn: 'Add User'
   },
@@ -1903,248 +1902,337 @@ export const table:Table = {
     nameTable: '',
     search: '',
     title: 'user',
-    select: false,
+    select: true,
     formInfo: form.user,
     btn: 'Add User'
   },
 }
 export const queryRelation: Query  ={
-  carts: gql`
-  query {
-    carts{
-      id
-      amount
+  carts: {
+    name: 'carts',
+    query: gql`
+      query {
+        carts{
+          id
+          amount
+        }
+      }
+    `
+  },
+  credit:{
+    name:'credits',
+    query:gql`
+      query {
+      credits{
+        id
+        start_date
+      }
     }
-  }
-  `,
-  credit: gql`
-  query {
-    credits{
-      id
-      start_date
+    `
+  },
+  credits:{
+    name:'credits',
+    query:gql`
+      query {
+      credits{
+        id
+        start_date
+      }
     }
-  }
-  `,
-  credits: gql`
-  query {
-    credits{
-      id
-      start_date
+    `
+  },
+  dimension:{
+    name:'dimensions',
+    query:gql`
+      query {
+      dimensions{
+        id
+        name
+      }
     }
-  }
-  `,
-  dimension: gql`
-  query {
-    dimensions{
-      id
-      name
-    }
-  }`,
-  egress: gql`
-  query{
-    egresses{
-      id
-      name_product
-    }
-  }
-  `,
-  egresses: gql`
-  query{
-    egresses{
-      id
-      name_product
-    }
-  }
-  `,
-  expenses: gql`
-  query{
-    expenses{
-      id
-      description
-    }
-  }
-  `,
-  histories: gql`
-  query{
-    histories{
-      id
-      date
-    }
-  }`,
-  income: gql`
-  query{
-    incomes{
-      id
-      product
-    }
-  }
-  `,
-  lot: gql`
-  query{
-    lots{
-      id
-      internal_code
-    }
-  }
-  `,
-  lots: gql`
-  query{
-    lots{
-      id
-      internal_code
-    }
-  }
-  `,
-  payments: gql`
-  query{
-    payments{
-      id
-      amount
-    }
-  }
-  `,
-  payment_method: gql`
-  query{
-    paymentMethods{
-      id
-      card_number
-    }
-  }
-  `,
-  payment_methods: gql`
-  query{
-    paymentMethods{
-      id
-      card_number
-    }
-  }
-  `,
-  premise: gql`
-  query{
-    premises{
-      id
-      name
-    }
-  }
-  `,
-  products: gql`
-  query{
-    products{
-      id
-      name
-    }
-  }
-  `,
-  promotions: gql`
-  query{
-    promotions{
-      id
-      creation_date
-    }
-  }
-  `,
-  provider: gql`
-  query{
-    providers{
-      id
-      name
-    }
-  }
-  `,
-  purchases: gql`
-  query{
-    purchases{
-      id
-      cost
-    }
-  }
-  `,
-  role: gql`
-  query{
-    roleTypes{
-      id
-      role
-    }
-  }
-  `,
-  routes: gql`
-  query{
-    routes{
-      id
-      description
-    }
-  }
-  `,
-  sale: gql`
-  query{
-    sales{
-      id
-      amount
-    }
-  }
-  `,
-  sales: gql`
-  query{
-    sales{
-      id
-      amount
-    }
-  }
-  `,
-  sellers: gql`
-  query{
-    sellers{
-      id
-      name
-    }
-  }
-  `,
-  trucks: gql`
-  query{
-    trucks{
-      id
-      serial_number
-    }
-  }
-  `,
-  custom_user: gql`
-  query{
-    customUsers{
-      id
-      name
-      last_name
-      middle_name
-    }
-  }
-  `,
-  custom_users: gql`
-  query{
-    customUsers{
-      id
-      name
-      last_name
-      middle_name
-    }
-  }
-  `,
-  client: gql`
-  query{
-    customUsers{
-      id
-      name
-      last_name
-      middle_name
-    }
-  }
-  `,
-  users: gql`
-  query{
-    customUsers{
-      id
-      name
-      last_name
-      middle_name
-    }
-  }
-  `,
+    `
+  },
+  egress:{
+    name:'egresses',
+    query:gql`
+      query{
+        egresses{
+          id
+          name_product
+        }
+      }
+    `
+  },
+  egresses:{
+    name:'egresses',
+    query:gql`
+      query{
+        egresses{
+          id
+          name_product
+        }
+      }
+    `
+  },
+  expenses:{
+    name:'expenses',
+    query:gql`
+      query{
+        expenses{
+          id
+          description
+        }
+      }
+    `
+  },
+  histories:{
+    name:'histories',
+    query:gql`
+      query{
+        histories{
+          id
+          date
+        }
+      }
+    `
+  },
+  income:{
+    name:'incomes',
+    query:gql`
+      query{
+        incomes{
+          id
+          product
+        }
+      }
+    `
+  },
+  lot:{
+    name:'lots',
+    query:gql`
+      query{
+        lots{
+          id
+          internal_code
+        }
+      }
+    `
+  },
+  lots:{
+    name:'lots',
+    query:gql`
+      query{
+        lots{
+          id
+          internal_code
+        }
+      }
+    `
+  },
+  payments:{
+    name:'payments',
+    query:gql`
+      query{
+        payments{
+          id
+          amount
+        }
+      }
+    `
+  },
+  payment_method:{
+    name:'paymentMethods',
+    query:gql`
+      query{
+        paymentMethods{
+          id
+          card_number
+        }
+      }
+    `
+  },
+  payment_methods:{
+    name:'paymentMethods',
+    query:gql`
+      query{
+        paymentMethods{
+          id
+          card_number
+        }
+      }
+    `
+  },
+  premise:{
+    name:'premises',
+    query:gql`
+      query{
+        premises{
+          id
+          name
+        }
+      }
+    `
+  },
+  products:{
+    name:'products',
+    query:gql`
+      query{
+        products{
+          id
+          name
+        }
+      }
+    `
+  },
+  promotions:{
+    name:'promotions',
+    query:gql`
+      query{
+        promotions{
+          id
+          creation_date
+        }
+      }
+    `
+  },
+  provider:{
+    name:'providers',
+    query:gql`
+      query{
+        providers{
+          id
+          name
+        }
+      }
+    `
+  },
+  purchases:{
+    name:'purchases',
+    query:gql`
+      query{
+        purchases{
+          id
+          cost
+        }
+      }
+    `
+  },
+  role:{
+    name:'rolesTypes',
+    query:gql`
+      query{
+        rolesTypes{
+          id
+          role
+        }
+      }
+    `
+  },
+  routes:{
+    name:'routes',
+    query:gql`
+      query{
+        routes{
+          id
+          description
+        }
+      }
+    `
+  },
+  sale:{
+    name:'sales',
+    query:gql`
+      query{
+        sales{
+          id
+          amount
+        }
+      }
+    `
+  },
+  sales:{
+    name:'sales',
+    query:gql`
+      query{
+        sales{
+          id
+          amount
+        }
+      }
+    `
+  },
+  sellers:{
+    name:'sellers',
+    query:gql`
+      query{
+        sellers{
+          id
+          name
+        }
+      }
+    `
+  },
+  trucks:{
+    name:'trucks',
+    query:gql`
+      query{
+        trucks{
+          id
+          serial_number
+        }
+      }
+    `
+  },
+  custom_user:{
+    name:'customUsers',
+    query:gql`
+      query{
+        customUsers{
+          id
+          name
+          last_name
+          middle_name
+        }
+      }
+    `
+  },
+  custom_users:{
+    name:'customUsers',
+    query:gql`
+      query{
+        customUsers{
+          id
+          name
+          last_name
+          middle_name
+        }
+      }
+    `
+  },
+  client:{
+    name:'customUsers',
+    query:gql`
+      query{
+        customUsers{
+          id
+          name
+          last_name
+          middle_name
+        }
+      }
+    `
+  },
+  users: {
+    name:'customUsers',
+    query:gql`
+      query{
+        customUsers{
+          id
+          name
+          last_name
+          middle_name
+        }
+      }
+    `
+  },
 }

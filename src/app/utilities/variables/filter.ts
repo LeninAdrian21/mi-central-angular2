@@ -524,7 +524,9 @@ export const filter:Filter = {
   },
   truck:{
     fields: [
-      // { label: 'Plate Details', value: 'plate_details' },
+      { label: 'Plate',value: 'plate_details.plate'},
+      { label: 'Plate State',value: 'plate_details.state'},
+      { label: 'Plate Active',value: 'plate_details.active'},
       { label: 'Serial Number', value: 'serial_number' },
       { label: 'VIN', value: 'vin' },
       { label: 'Expenses', value: 'expenses' },
@@ -533,7 +535,9 @@ export const filter:Filter = {
       { label: 'User Name', value: 'custom_user' },
     ],
     operators: {
-      // plate_details: '',
+      'plate_details.plate':string,
+      'plate_details.state':string,
+      'plate_details.activate':boolean,
       serial_number: numberAndDate,
       vin: numberAndDate,
       expenses: string,
@@ -633,18 +637,15 @@ export const filter:Filter = {
     },
   },
 }
-export const query: Query  ={
+export const queryFilter: Query  ={
   cart:gql`
   query {
     carts{
-      id
       amount
       products{
-        id
         name
       }
       sale{
-        id
         amount
       }
     }
@@ -652,7 +653,7 @@ export const query: Query  ={
   `,
   credit: gql`
   query {
-    credit{
+    credits{
       limit
       start_date
       end_date
@@ -1090,7 +1091,7 @@ export const query: Query  ={
   `,
   truck: gql`
   query{
-    truck{
+    trucks{
       plate_details
       serial_number
       vin

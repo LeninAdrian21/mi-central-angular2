@@ -16,14 +16,18 @@ export class RequestService {
   client = inject(Apollo);
   router= inject(Router);
   addUpdate = signal(false);
-  submit = signal(false);
-  addField = signal(false);
+  submit = signal<boolean>(false);
+  entryCreated = signal(false)
+  // addField = signal(false);
   charge = signal(false);
   pagination$!:Observable<any>;
   totalCount = signal(false);
   NextPage = signal(false);
   Token = signal('');
+  pagination = signal<any[]>([]);
   token:string = localStorage.getItem('token') as string;
+  selections = signal<any[]>([]);
+  tableSelectedData = signal<any[]>([]);
   // refreshToken:string = localStorage.getItem('refresh_token') as string;
   constructor(){
     this.pagination$ = new Observable();
@@ -80,6 +84,18 @@ export class RequestService {
     return this.http.get(`${this.url}/${endpoint}`,{headers:this.Headers()})
     .pipe(catchError(this.error))
   }
+  put(endpoint:string,body:any){
+    return this.http.put(`${this.url}/${endpoint}`, body,{headers:this.Headers()})
+    .pipe(catchError(this.error))
+  }
+  delete(endpoint:string){
+    return this.http.delete(`${this.url}/${endpoint}`,{headers:this.Headers()})
+    .pipe(catchError(this.error))
+  }
+  LogOut(endpoint:string){
+    return this.http.get(`${this.url}/${endpoint}`,{headers:this.HeadersRefresh()})
+    .pipe(catchError(this.error))
+  }
   refreshToken(){
     return this.http.get(`${this.url}/custom-users/refresh/token`,{headers:this.HeadersRefresh()})
     .pipe(catchError(this.error))
@@ -115,6 +131,14 @@ export class RequestService {
       })
     );
   }
+  GetDataRelation(query:any,name:string,update:boolean){
+    this.GetData(query,name).subscribe(
+      (data) => {
+        this.pagination.set(data);
+      }
+    )
+  }
+
   getRole():Observable<string>{
     return this.get('custom-users/decrypt/role').pipe(map((response: any) => response.role));
   }
@@ -131,7 +155,6 @@ export class RequestService {
       return of(false);
     }
     const tokenExp = this.getExpirations(token);
-    console.log(new Date(tokenExp));
     if(tokenExp < Date.now()){
       return this.TokenRefresh().pipe(
         catchError(error => {
@@ -150,7 +173,7 @@ export class RequestService {
   getExpirations(token:string):number{
     const parts = token.split('.');
     const payload = JSON.parse(atob(parts[1]));
-
+    console.log( new Date(payload.exp*1000));
     return payload.exp * 1000;
   }
   private TokenRefresh():Observable<any>{
@@ -170,6 +193,8 @@ export class RequestService {
         }
       }),
       catchError(error => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('refresh_token');
         console.error('Error al refrescar el token:', error);
         return of(false);
       })

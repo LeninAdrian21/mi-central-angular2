@@ -15,12 +15,12 @@
     <div class="row">
       <div class="col-6" [ngClass]="{'col-md-12': !showForm, 'col-md-6': showForm}" >
         <div class="w75">
-          <app-table [columns]="columns" [fields]="fields" [listName]="data.field"></app-table>
+          <app-table (selectedData)="handleSelectedData($event)" [columns]="columns" [fields]="fields" [listName]="data.field" [relation]="relation" [select]="select"  [tableSelectedData]="tableSelectedData"></app-table>
           <div class="mt-4 mb-2 d-flex justify-content-between field">
             <button mat-mini-fab color="accent" (click)="toggleForm()">
               <mat-icon>add</mat-icon>
             </button>
-            <button mat-mini-fab color="accent">
+            <button mat-mini-fab color="accent" (click)="List()">
               <mat-icon>check</mat-icon>
             </button>
           </div>
@@ -31,7 +31,7 @@
           <span>{{title}} Form</span>
         </mat-toolbar>
         <div class="form overflow-y-auto overflow-x-hidden h50 mt-3">
-          <app-form [formInfo]="formInfo" [formName]="data.field" [btn]="btn" [update]="''" [relation]="true"></app-form>
+          <app-form [formInfo]="formInfo" [formName]="data.field" [btn]="btn" [update]="''" [relation]="relation"></app-form>
         </div>
         <button mat-mini-fab class="mt-4 bg-danger" (click)="toggleForm()">
           <mat-icon>remove</mat-icon>

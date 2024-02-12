@@ -14,5 +14,6 @@ export class ListComponent{
   fields: Fields = table.cart.fields;
   listName: string = 'cart';
   paginationData: string = 'paginationDataCart';
+  getData:string  = 'carts';
   link: string = '/cart/form';
 }

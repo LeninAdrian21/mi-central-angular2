@@ -2,3 +2,11 @@
 .w75{
   width: 600px;
 }
+.h50{
+  max-height: 550px;
+}
+@media screen and (min-width: 1500px) {
+  .h50{
+    max-height: 850px;
+  }
+}

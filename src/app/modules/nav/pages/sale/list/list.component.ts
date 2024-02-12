@@ -14,5 +14,6 @@ export class ListComponent {
   fields: Fields = table.sale.fields;
   listName: string = 'sale';
   paginationData:string = 'paginationDataSale';
+  getData:string = 'sales';
   link:string = '/sale/form';
 }

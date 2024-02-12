@@ -5,7 +5,6 @@ import { FormComponent } from './form/form.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NavComponent } from '../../nav.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ComponentsModule } from 'src/app/components/components.module';
 import { hasRoleGuard } from 'src/app/guard/has-role.guard';
 const routes: Routes = [
   {

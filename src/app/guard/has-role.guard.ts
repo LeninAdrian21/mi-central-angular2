@@ -7,24 +7,7 @@ import { message } from '../utilities/functions/message';
 export const hasRoleGuard: CanActivateFn = (route, state) => {
   const service = inject(RequestService);
   const router = inject(Router);
-    const allowedRoles = route.data?.['allowedRoles'];
-  // if(localStorage.getItem('token')){
-  //   return service.getRole().pipe(
-  //     tap((userRole) => {
-  //       if (!allowedRoles.includes(userRole)) {
-  //         message('Not authorized');
-  //         setTimeout(() => {
-  //           router.navigate(['home']);
-  //         },1700)
-  //       }
-  //     }),
-  //     map((userRole) => allowedRoles.includes(userRole))
-  //   );
-  // }else{
-  //   message('Not logged in');
-  //   router.navigate(['/auth/loggin']);
-  //   return false;
-  // }
+  const allowedRoles = route.data?.['allowedRoles'];
   return service.startCheckingAuthStatus().pipe(
     switchMap((isLoggedIn) => {
       if (isLoggedIn) {

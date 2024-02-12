@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors } from "@angular/forms";
+import { AbstractControl, FormGroup, ValidationErrors } from "@angular/forms";
 import { DocumentNode } from "graphql";
 
 export interface FormData{
@@ -59,28 +59,37 @@ export  interface Table{
   };
 }
 export interface RelationsData {
-  field:string
+  field:string,
+  form:any
 }
 export interface Query {
-  cart: DocumentNode;
-  credit: DocumentNode;
-  dimension: DocumentNode;
-  egress: DocumentNode;
-  expense: DocumentNode;
-  history: DocumentNode;
-  income: DocumentNode;
-  lot: DocumentNode;
-  payment: DocumentNode;
-  payment_method: DocumentNode;
-  premise: DocumentNode;
-  product: DocumentNode;
-  promotion: DocumentNode;
-  provider: DocumentNode;
-  purchase: DocumentNode;
-  role: DocumentNode;
-  route: DocumentNode;
-  sale: DocumentNode;
-  seller: DocumentNode;
-  truck: DocumentNode;
-  user: DocumentNode;
+  [key:string]: {
+    name:string;
+    query:DocumentNode;
+  }
+  // cart: DocumentNode;
+  // credit: DocumentNode;
+  // dimension: DocumentNode;
+  // egress: DocumentNode;
+  // expense: DocumentNode;
+  // history: DocumentNode;
+  // income: DocumentNode;
+  // lot: DocumentNode;
+  // payment: DocumentNode;
+  // payment_method: DocumentNode;
+  // premise: DocumentNode;
+  // product: DocumentNode;
+  // promotion: DocumentNode;
+  // provider: DocumentNode;
+  // purchase: DocumentNode;
+  // role: DocumentNode;
+  // route: DocumentNode;
+  // sale: DocumentNode;
+  // seller: DocumentNode;
+  // truck: DocumentNode;
+  // user: DocumentNode;
+}
+export interface DataRelation{
+  field:string
+  form:FormGroup;
 }

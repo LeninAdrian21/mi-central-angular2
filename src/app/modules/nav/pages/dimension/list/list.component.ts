@@ -14,5 +14,6 @@ export class ListComponent {
   fields: Fields = table.dimension.fields;
   listName: string = 'dimension';
   paginationData:string = 'paginationDataDimension';
+  getData:string = 'dimensions';
   link:string = '/dimension/form';
 }

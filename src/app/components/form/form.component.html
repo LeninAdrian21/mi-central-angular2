@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="Form" class="w-100">
+<form [formGroup]="form" (ngSubmit)="Form()" class="w-100">
   <div class="row">
     <div class="form-group" [ngClass]="{'col-4': formName !== 'login' && formName !== 'resetPassword' && formName !== 'newPassword' && !relation}"  *ngFor="let field of formInfo" [ngSwitch]="field.type">
       <ng-container *ngSwitchCase="'text'">
@@ -90,7 +90,7 @@
   </div>
   <div *ngIf="!service.addUpdate()">
     <div class="row justify-content-center">
-      <button type="submit" mat-raised-button class="mb-3 mt-3 col-3 bg-primary" (click)="Form()">
+      <button type="submit" mat-raised-button class="mb-3 mt-3 col-3 bg-primary">
         {{ btn }}
       </button>
     </div>

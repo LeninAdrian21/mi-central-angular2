@@ -14,5 +14,6 @@ export class ListComponent {
   fields: Fields = table.income.fields;
   listName: string = 'income';
   paginationData: string = 'paginationDataIncome';
+  getData: string = 'incomes';
   link:string = '/income/form';
 }
