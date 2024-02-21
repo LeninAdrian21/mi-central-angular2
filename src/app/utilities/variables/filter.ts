@@ -679,7 +679,7 @@ export const queryFilter: Query  ={
   `,
   dimension: gql`
   query {
-    dimension{
+    dimensions{
       name
       width
       height
@@ -692,7 +692,7 @@ export const queryFilter: Query  ={
   }`,
   egress: gql`
   query{
-    egres{
+    egresses{
       name_product
       quantity
       unit_price
@@ -711,7 +711,7 @@ export const queryFilter: Query  ={
   `,
   expense: gql`
   query{
-    expense{
+    expenses{
       description
       date
       amount
@@ -732,7 +732,7 @@ export const queryFilter: Query  ={
   `,
   history: gql`
   query{
-    history{
+    histories{
       date
       start_time
       end_time
@@ -750,7 +750,7 @@ export const queryFilter: Query  ={
   }`,
   income: gql`
   query{
-    income{
+    incomes{
       product
       quantity_sold
       price
@@ -771,7 +771,7 @@ export const queryFilter: Query  ={
   `,
   lot: gql`
   query{
-    lot{
+    lots{
       internal_code
       arrival_date
       expiration_date
@@ -790,7 +790,7 @@ export const queryFilter: Query  ={
   `,
   payment: gql`
   query{
-    payment{
+    payments{
       amount
       date
       status
@@ -809,7 +809,7 @@ export const queryFilter: Query  ={
   `,
   payment_method: gql`
   query{
-    payment_method{
+    paymentMethods{
       card_number
       month
       year
@@ -819,7 +819,7 @@ export const queryFilter: Query  ={
       issue_date
       entry_date
       description
-      referense
+      reference
       type
       credits{
         id
@@ -852,14 +852,14 @@ export const queryFilter: Query  ={
   `,
   premise: gql`
   query{
-    premise{
+    premises{
       name
       alias
       business_name
       rfc
       start_date
       street
-      neigthborhood
+      neighborhood
       exterior_number
       municipality
       interior_number
@@ -887,7 +887,7 @@ export const queryFilter: Query  ={
   `,
   product: gql`
   query{
-    product{
+    products{
       name
       net_weight
       presentation
@@ -897,10 +897,10 @@ export const queryFilter: Query  ={
       cost
       available_inventory
       min_value
-      bardcode
+      barcode
       internal_code
       status
-      unt_of_measure
+      unit_of_measure
       measurement
       carts{
         id
@@ -927,11 +927,11 @@ export const queryFilter: Query  ={
   `,
   promotion: gql`
   query{
-    promotion{
+    promotions{
       creation_date
       expiration_date
       discount_value
-      reference_date
+      reference_code
       condition
       products{
         id
@@ -942,14 +942,14 @@ export const queryFilter: Query  ={
   `,
   provider: gql`
   query{
-    provider{
+    providers{
       name
       business_name
       rfc
       registration_date
       street
       number
-      neighbourhood
+      neighborhood
       postal_code
       municipality
       city
@@ -973,7 +973,7 @@ export const queryFilter: Query  ={
   `,
   purchase: gql`
   query{
-    purchase{
+    purchases{
       cost
       order_date
       reference
@@ -992,7 +992,7 @@ export const queryFilter: Query  ={
         name
       }
       custom_users{
-        id
+        id 
         name
         last_name
         middle_name
@@ -1002,7 +1002,7 @@ export const queryFilter: Query  ={
   `,
   role: gql`
   query{
-    role{
+    roleTypes{
       role
       users{
         id
@@ -1015,7 +1015,7 @@ export const queryFilter: Query  ={
   `,
   route: gql`
   query{
-    route{
+    routes{
       description
       origin
       destination
@@ -1039,7 +1039,7 @@ export const queryFilter: Query  ={
   `,
   sale: gql`
   query{
-    sale{
+    sales{
       amount
       total_amount
       date
@@ -1080,11 +1080,11 @@ export const queryFilter: Query  ={
   `,
   seller: gql`
   query{
-    seller{
+    sellers{
       name
       sales{
         id
-        name
+        amount
       }
     }
   }
@@ -1118,7 +1118,7 @@ export const queryFilter: Query  ={
   `,
   user: gql`
   query{
-    user{
+    customUsers{
       name
       last_name
       middle_name
@@ -1140,7 +1140,7 @@ export const queryFilter: Query  ={
       number
       neighborhood
       postal_code
-      munipality
+      municipality
       city
       country
       address_reference
@@ -1160,7 +1160,7 @@ export const queryFilter: Query  ={
         id
         amount
       }
-      credist{
+      credits{
         id
         start_date
       }

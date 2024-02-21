@@ -18,7 +18,7 @@ import { Query, Table } from "../interface/list";
  * purchase:cost
  * role:role
  * route:description
- * sale:amount
+ * sales:amount
  * seller:name
  * truck:serial_number
  * user:name last_name middle_name
@@ -566,7 +566,7 @@ export const query: Query={
           registration_date
           street
           number
-          neighbourhood
+          neighborhood
           postal_code
           municipality
           city
@@ -636,12 +636,12 @@ export const query: Query={
   }
   `,
   role: gql`
-  query paginationDataRole(
+  query paginationDataRoleType(
     $start: Int
     $limit: Int
     $filters: [FilterRoleField]
   ){
-    paginationDataRole(start: $start, limit: $limit, filters: $filters){
+    paginationDataRoleType(start: $start, limit: $limit, filters: $filters){
       totalCount
       pageInfo {
         hasNextPage
@@ -781,7 +781,7 @@ export const query: Query={
           name
           sales{
             id
-            name
+            amount
           }
         }
       }
@@ -832,12 +832,12 @@ export const query: Query={
   }
   `,
   user: gql`
-  query paginationDataUser(
+  query paginationDataCustomUser(
     $start: Int
     $limit: Int
     $filters: [FilterUserField]
   ){
-    paginationDataUser(start: $start, limit: $limit, filters: $filters){
+    paginationDataCustomUser(start: $start, limit: $limit, filters: $filters){
       totalCount
       pageInfo {
         hasNextPage
@@ -869,7 +869,7 @@ export const query: Query={
           number
           neighborhood
           postal_code
-          munipality
+          municipality
           city
           country
           address_reference
@@ -889,7 +889,7 @@ export const query: Query={
             id
             amount
           }
-          credist{
+          credits{
             id
             start_date
           }
